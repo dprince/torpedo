@@ -9,16 +9,20 @@ Fire when ready. Fast Ruby integration tests for OpenStack.
 Installation
 ------------
 
+1. Install the Gem.
+2. Create the torpedo.conf file in your HOME directory.
+3. Source novarc for your OpenStack Compute account.
+
+```bash
 	gem install torpedo
 
-	#create the torpedo YAML config in your $HOME dir:
     cat > ~/.torpedo.conf <<"EOF_CAT"
 	# YAML config file for torpedo
 
 	# timeouts
-	server_build_timeout: 120
+	server_build_timeout: 420
 	ping_timeout: 60
-	ssh_timeout: 30
+	ssh_timeout: 60
 
 	# SERVER test settings
 	test_create_image: false
@@ -26,7 +30,7 @@ Installation
 	test_resize_server: false
 
 	# IMAGES (Set one of the following)
-	#image_name:
+	image_name: Ubuntu Natty (11.04)
 	#image_ref:
 
 	# FLAVORS (Set one of the following)
@@ -38,10 +42,12 @@ Installation
 	#ssh_public_key: 
 
 	# KEYPAIRS (used to verify AMI style images)
-	keypair: test.pem
-	keyname: test
+	#keypair: test.pem
+	#keyname: test
 	EOF_CAT
 
+	source novarc
+```
 
 Examples
 --------
@@ -68,6 +74,30 @@ Run all tests with debug HTTP request response output:
 Run all tests and output an Xunit style XML report:
 
 	torpedo fire --xml-report=FILE
+
+Payload
+--------
+
+* list flavors
+* get flavor
+* list images
+* get image
+* list limits
+* create server (ping and ssh test)
+* delete server metadata items
+* update one server metadata item
+* update multiple server metadata items
+* set server metadata items
+* clear server metadata
+* create image
+* rebuild server (ping and ssh test)
+* resize server (ping and ssh test)
+* resize confirm (ping and ssh test)
+* delete image metadata
+* update one image metadata item
+* update multiple image metadata items
+* set image metadata items
+* clear image metadata
 
 License
 -------
