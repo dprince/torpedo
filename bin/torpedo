@@ -4,7 +4,7 @@ require "rubygems"
 require "thor"
 
 # uncomment this for local testing
-$:.unshift File.dirname(__FILE__) + "/../lib"
+#$:.unshift File.dirname(__FILE__) + "/../lib"
 
 require "torpedo"
 

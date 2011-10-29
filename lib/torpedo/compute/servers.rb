@@ -260,7 +260,7 @@ class Servers < Test::Unit::TestCase
  
     check_server(server, @@image_ref, @@flavor_ref_resize, 'VERIFY_RESIZE')
 
-  end
+  end if TEST_RESIZE_SERVER
 
   def test_041_resize_confirm
 
