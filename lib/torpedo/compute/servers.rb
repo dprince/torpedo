@@ -9,6 +9,7 @@ class Servers < Test::Unit::TestCase
   @@images = []
   @@image_ref = Helper::get_image_ref(Helper::get_connection)
   @@flavor_ref = Helper::get_flavor_ref(Helper::get_connection)
+  @@flavor_ref_resize = Helper::get_flavor_ref_resize(@conn)
   @@server = nil #ref to last created server
 
   def setup
@@ -237,21 +238,19 @@ class Servers < Test::Unit::TestCase
 
   end if TEST_REBUILD_SERVER
 
-  def test_040_resize_instance
+  def test_040_resize
 
-    flavor_ref_resize = Helper::get_flavor_ref_resize(@conn)
-
-    @@server.resize!(flavor_ref_resize)
+    @@server.resize!(@@flavor_ref_resize)
     server = @conn.server(@@server.id)
-    assert_equal('RESIZE', @@server.status)
+    assert_equal('RESIZE', server.status)
 
     begin
       timeout(SERVER_BUILD_TIMEOUT) do
         until server.status == 'VERIFY_RESIZE' do
           if server.status == "ERROR" then
-            fail('Server ERROR state detected when resizing instance!')
+            fail('Server ERROR state detected when resizing server!')
           end
-          server = @conn.server(@@server.id)
+          server = @conn.server(server.id)
           sleep 1
         end
       end
@@ -259,18 +258,20 @@ class Servers < Test::Unit::TestCase
       fail('Timeout resizing server.')
     end
  
-    check_server(server, @@image_ref, flavor_ref_resize, 'VERIFY_RESIZE')
+    check_server(server, @@image_ref, @@flavor_ref_resize, 'VERIFY_RESIZE')
 
-    server.confirm_resize!
+  end
+
+  def test_041_resize_confirm
+
+    @@server.confirm_resize!
     server = @conn.server(@@server.id)
-    assert_equal('ACTIVE', @@server.status)
+    assert_equal('ACTIVE', server.status)
 
-    check_server(server, @@image_ref, flavor_ref_resize)
+    check_server(server, @@image_ref, @@flavor_ref_resize)
 
   end if TEST_RESIZE_SERVER
 
-  #NOTE: we do image metadata tests last because they will make the
-  # snapshot un-bootable (they removed needed metadata)
   def test_051_delete_image_metadata_items
 
     metadata = @conn.image(@@image_ref).metadata
