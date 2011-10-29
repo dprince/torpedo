@@ -71,7 +71,7 @@ module Helper
     elsif not flavor_ref_resize or flavor_ref_resize.to_s.empty? then
       # if no flavor ref is specified for resize add one to it
       flavor_ref = Helper.get_flavor_ref(conn)
-      flavor_ref_resize = flavor_ref.to_is + 1
+      flavor_ref_resize = flavor_ref.to_i + 1
     end
 
     flavor_ref_resize.to_s
