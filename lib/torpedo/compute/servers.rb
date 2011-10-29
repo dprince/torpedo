@@ -226,78 +226,7 @@ class Servers < Test::Unit::TestCase
 
   end if TEST_CREATE_IMAGE
 
-  def test_021_delete_image_metadata_items
-
-    metadata = @conn.image(@@image_ref).metadata
-    metadata.each_pair do |key, value|
-      assert metadata.delete!(key)
-    end
  
-    metadata.refresh
-
-    assert_equal 0, metadata.size
-
-  end if TEST_CREATE_IMAGE
-
-  def test_022_update_one_image_metadata_item
-
-    metadata = @conn.image(@@image_ref).metadata
-    metadata['foo1'] = 'bar1'
-    assert metadata.update('foo1')
-
-    metadata.refresh
-
-    assert_equal 'bar1', metadata['foo1']
-
-    assert_equal 1, metadata.size
- 
-  end if TEST_CREATE_IMAGE
-
-  def test_023_update_some_image_metadata_items
-
-    metadata = @conn.image(@@image_ref).metadata
-    metadata['foo1'] = 'bar1'
-    metadata['foo2'] = 'bar2'
-    assert metadata.update(['foo1','foo2'])
-
-    metadata.refresh
-
-    assert_equal 'bar1', metadata['foo1']
-    assert_equal 'bar2', metadata['foo2']
-
-    assert_equal 2, metadata.size
- 
-  end if TEST_CREATE_IMAGE
-
-  def test_024_set_image_metadata_items
-
-    metadata = @conn.image(@@image_ref).metadata
-    metadata['foo1'] = 'that'
-    metadata['foo2'] = 'silly'
-    metadata['foo3'] = 'rabbit'
-    assert metadata.save
-
-    metadata.refresh
-
-    assert_equal 'that', metadata['foo1']
-    assert_equal 'silly', metadata['foo2']
-    assert_equal 'rabbit', metadata['foo3']
-
-    assert_equal 3, metadata.size
- 
-  end if TEST_CREATE_IMAGE
-
-  def test_025_clear_image_metadata
-
-    metadata = @conn.image(@@image_ref).metadata
-    assert metadata.clear!
-
-    metadata.refresh
-
-    assert_equal 0, metadata.size
- 
-  end if TEST_CREATE_IMAGE
-  
   def test_030_rebuild_instance
     # make sure our snapshot boots
     personalities={SSH_PUBLIC_KEY => "/root/.ssh/authorized_keys"}
@@ -339,6 +268,80 @@ class Servers < Test::Unit::TestCase
     check_server(server, @@image_ref, flavor_ref_resize)
 
   end if TEST_RESIZE_SERVER
+
+  #NOTE: we do image metadata tests last because they will make the
+  # snapshot un-bootable (they removed needed metadata)
+  def test_051_delete_image_metadata_items
+
+    metadata = @conn.image(@@image_ref).metadata
+    metadata.each_pair do |key, value|
+      assert metadata.delete!(key)
+    end
+ 
+    metadata.refresh
+
+    assert_equal 0, metadata.size
+
+  end if TEST_CREATE_IMAGE
+
+  def test_052_update_one_image_metadata_item
+
+    metadata = @conn.image(@@image_ref).metadata
+    metadata['foo1'] = 'bar1'
+    assert metadata.update('foo1')
+
+    metadata.refresh
+
+    assert_equal 'bar1', metadata['foo1']
+
+    assert_equal 1, metadata.size
+ 
+  end if TEST_CREATE_IMAGE
+
+  def test_053_update_some_image_metadata_items
+
+    metadata = @conn.image(@@image_ref).metadata
+    metadata['foo1'] = 'bar1'
+    metadata['foo2'] = 'bar2'
+    assert metadata.update(['foo1','foo2'])
+
+    metadata.refresh
+
+    assert_equal 'bar1', metadata['foo1']
+    assert_equal 'bar2', metadata['foo2']
+
+    assert_equal 2, metadata.size
+ 
+  end if TEST_CREATE_IMAGE
+
+  def test_054_set_image_metadata_items
+
+    metadata = @conn.image(@@image_ref).metadata
+    metadata['foo1'] = 'that'
+    metadata['foo2'] = 'silly'
+    metadata['foo3'] = 'rabbit'
+    assert metadata.save
+
+    metadata.refresh
+
+    assert_equal 'that', metadata['foo1']
+    assert_equal 'silly', metadata['foo2']
+    assert_equal 'rabbit', metadata['foo3']
+
+    assert_equal 3, metadata.size
+ 
+  end if TEST_CREATE_IMAGE
+
+  def test_055_clear_image_metadata
+
+    metadata = @conn.image(@@image_ref).metadata
+    assert metadata.clear!
+
+    metadata.refresh
+
+    assert_equal 0, metadata.size
+ 
+  end if TEST_CREATE_IMAGE
 
   def test_999_teardown
     @@servers.each do |server|

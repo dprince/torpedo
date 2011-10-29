@@ -1,3 +1,6 @@
+* Sat Oct 29 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.4
+  -Run image metadata tests last because they make the snapshot un-bootable.
+
 * Sat Oct 29 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.3
   - Fix issues boolean config file issue with test_create_image,
    test_rebuild_server, and test_resize_server config options.
