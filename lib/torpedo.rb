@@ -8,9 +8,9 @@ PING_TIMEOUT=(configs['ping_timeout'] || 60).to_i
 SERVER_BUILD_TIMEOUT=(configs['server_build_timeout'] || 60).to_i
 SSH_PRIVATE_KEY=configs['ssh_private_key'] || ENV['HOME'] + "/.ssh/id_rsa"
 SSH_PUBLIC_KEY=configs['ssh_public_key'] || ENV['HOME'] + "/.ssh/id_rsa.pub"
-TEST_CREATE_IMAGE=configs['test_create_image'] || "false"
-TEST_REBUILD_SERVER=configs['test_rebuild_server'] || "false"
-TEST_RESIZE_SERVER=configs['test_resize_server'] || "false"
+TEST_CREATE_IMAGE=configs['test_create_image'] || false
+TEST_REBUILD_SERVER=configs['test_rebuild_server'] || false
+TEST_RESIZE_SERVER=configs['test_resize_server'] || false
 KEYPAIR=configs['keypair']
 KEYNAME=configs['keyname']
 

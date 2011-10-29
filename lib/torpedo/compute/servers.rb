@@ -224,7 +224,7 @@ class Servers < Test::Unit::TestCase
     # Overwrite image_ref to make all subsequent tests use this snapshot
     @@image_ref = image.id.to_s
 
-  end if TEST_CREATE_IMAGE == "true"
+  end if TEST_CREATE_IMAGE
 
   def test_021_delete_image_metadata_items
 
@@ -237,7 +237,7 @@ class Servers < Test::Unit::TestCase
 
     assert_equal 0, metadata.size
 
-  end if TEST_CREATE_IMAGE == "true"
+  end if TEST_CREATE_IMAGE
 
   def test_022_update_one_image_metadata_item
 
@@ -251,7 +251,7 @@ class Servers < Test::Unit::TestCase
 
     assert_equal 1, metadata.size
  
-  end if TEST_CREATE_IMAGE == "true"
+  end if TEST_CREATE_IMAGE
 
   def test_023_update_some_image_metadata_items
 
@@ -267,7 +267,7 @@ class Servers < Test::Unit::TestCase
 
     assert_equal 2, metadata.size
  
-  end if TEST_CREATE_IMAGE == "true"
+  end if TEST_CREATE_IMAGE
 
   def test_024_set_image_metadata_items
 
@@ -285,7 +285,7 @@ class Servers < Test::Unit::TestCase
 
     assert_equal 3, metadata.size
  
-  end if TEST_CREATE_IMAGE == "true"
+  end if TEST_CREATE_IMAGE
 
   def test_025_clear_image_metadata
 
@@ -296,7 +296,7 @@ class Servers < Test::Unit::TestCase
 
     assert_equal 0, metadata.size
  
-  end if TEST_CREATE_IMAGE == "true"
+  end if TEST_CREATE_IMAGE
   
   def test_030_rebuild_instance
     # make sure our snapshot boots
@@ -306,7 +306,7 @@ class Servers < Test::Unit::TestCase
     sleep 15 # sleep a couple seconds until rebuild starts
     check_server(server, @@image_ref, @@flavor_ref)
 
-  end if TEST_REBUILD_SERVER == "true"
+  end if TEST_REBUILD_SERVER
 
   def test_040_resize_instance
 
@@ -338,7 +338,7 @@ class Servers < Test::Unit::TestCase
 
     check_server(server, @@image_ref, flavor_ref_resize)
 
-  end if TEST_RESIZE_SERVER == "true"
+  end if TEST_RESIZE_SERVER
 
   def test_999_teardown
     @@servers.each do |server|
