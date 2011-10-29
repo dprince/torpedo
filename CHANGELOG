@@ -1,3 +1,6 @@
+* Sat Oct 29 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.2
+  - Add missing dependency to gemspec for test-unit-ext.
+
 * Sat Oct 29 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.1
   - Add config options to support custom flavor settings.
 

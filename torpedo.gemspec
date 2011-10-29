@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{torpedo}
-  s.version = "1.0.1"
+  s.version = "1.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dan Prince"]
@@ -54,17 +54,20 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_runtime_dependency(%q<thor>, [">= 0"])
       s.add_runtime_dependency(%q<openstack-compute>, [">= 1.1.4"])
+      s.add_runtime_dependency(%q<test-unit-ext>, [">= 0.5.0"])
     else
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_dependency(%q<thor>, [">= 0"])
       s.add_dependency(%q<openstack-compute>, [">= 1.1.4"])
+      s.add_dependency(%q<test-unit-ext>, [">= 0.5.0"])
     end
   else
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
     s.add_dependency(%q<thor>, [">= 0"])
     s.add_dependency(%q<openstack-compute>, [">= 1.1.4"])
+    s.add_dependency(%q<test-unit-ext>, [">= 0.5.0"])
   end
 end
 

@@ -25,6 +25,7 @@ Jeweler::Tasks.new do |gem|
   # dependencies defined in Gemfile
   gem.add_dependency 'thor'
   gem.add_dependency 'openstack-compute', '>= 1.1.4'
+  gem.add_dependency 'test-unit-ext', '>= 0.5.0'
 end
 Jeweler::RubygemsDotOrgTasks.new
 
