@@ -4,7 +4,7 @@ Torpedo
 Description
 -----------
 
-Sink bad code! Ruby Smoke Tests for the OpenStack.
+Fire when ready. Fast Ruby integration tests for OpenStack.
 
 Installation
 ------------
