@@ -15,23 +15,27 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "torpedo"
+  gem.executables = "torpedo"
   gem.homepage = "http://github.com/dprince/torpedo"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
+  gem.summary = %Q{Sink bad code! Ruby Smoke Tests for OpenStack.}
+  gem.description = %Q{CLI to run functional smoke tests for OpenStack.}
   gem.email = "dan.prince@rackspace.com"
   gem.authors = ["Dan Prince"]
   # dependencies defined in Gemfile
+  gem.add_dependency 'thor'
+  gem.add_dependency 'openstack-compute', '>= 1.1.4'
 end
 Jeweler::RubygemsDotOrgTasks.new
 
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
+  #test.libs << 'lib' << 'test'
   test.pattern = 'test/**/test_*.rb'
   test.verbose = true
 end
 
+=begin
 require 'rcov/rcovtask'
 Rcov::RcovTask.new do |test|
   test.libs << 'test'
@@ -39,6 +43,7 @@ Rcov::RcovTask.new do |test|
   test.verbose = true
   test.rcov_opts << '--exclude "gems/*"'
 end
+=end
 
 task :default => :test
 
