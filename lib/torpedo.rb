@@ -17,6 +17,12 @@ KEYNAME=configs['keyname']
 IMAGE_REF=configs['image_ref']
 IMAGE_NAME=configs['image_name']
 
+FLAVOR_REF=configs['flavor_ref']
+FLAVOR_NAME=configs['flavor_name']
+
+FLAVOR_REF_RESIZE=configs['flavor_ref_resize']
+FLAVOR_NAME_RESIZE=configs['flavor_name_resize']
+
 OPENSTACK_COMPUTE_VERSION=configs['openstack_compute_version'] || '1.1.4'
 
 USERNAME=ENV['NOVA_USERNAME']

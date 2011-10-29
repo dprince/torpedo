@@ -8,6 +8,7 @@ class Servers < Test::Unit::TestCase
   @@servers = []
   @@images = []
   @@image_ref = Helper::get_image_ref(Helper::get_connection)
+  @@flavor_ref = Helper::get_flavor_ref(Helper::get_connection)
   @@server = nil #ref to last created server
 
   def setup
@@ -72,7 +73,7 @@ class Servers < Test::Unit::TestCase
   def check_server(server, image_ref, flavor_ref, check_status="ACTIVE")
 
     assert_not_nil(server.hostId)
-    assert_equal(flavor_ref.to_s, server.flavor['id'])
+    assert_equal(flavor_ref, server.flavor['id'])
     assert_equal(image_ref.to_s, server.image['id'])
     assert_equal('test1', server.name)
     server = @conn.server(server.id)
@@ -108,7 +109,7 @@ class Servers < Test::Unit::TestCase
     # limitations
     personalities={SSH_PUBLIC_KEY => "/root/.ssh/authorized_keys"}
     metadata={ "key1" => "value1", "key2" => "value2" }
-    options = {:name => "test1", :imageRef => @@image_ref, :flavorRef => 2, :personality => personalities, :metadata => metadata}
+    options = {:name => "test1", :imageRef => @@image_ref, :flavorRef => @@flavor_ref, :personality => personalities, :metadata => metadata}
     if KEYNAME and not KEYNAME.empty? then
       options[:key_name] = KEYNAME
     end
@@ -116,7 +117,7 @@ class Servers < Test::Unit::TestCase
     assert_not_nil(@@server.adminPass)
 
     #boot an instance and check it
-    check_server(server, @@image_ref, 2)
+    check_server(server, @@image_ref, @@flavor_ref)
 
     assert_equal "value1", @@server.metadata['key1']
     assert_equal "value2", @@server.metadata['key2']
@@ -303,13 +304,15 @@ class Servers < Test::Unit::TestCase
     @@server.rebuild!(:imageRef => @@image_ref, :personality => personalities)
     server = @conn.server(@@server.id)
     sleep 15 # sleep a couple seconds until rebuild starts
-    check_server(server, @@image_ref, 2)
+    check_server(server, @@image_ref, @@flavor_ref)
 
   end if TEST_REBUILD_SERVER == "true"
 
   def test_040_resize_instance
 
-    @@server.resize!(3)
+    flavor_ref_resize = Helper::get_flavor_ref_resize(@conn)
+
+    @@server.resize!(flavor_ref_resize)
     server = @conn.server(@@server.id)
     assert_equal('RESIZE', @@server.status)
 
@@ -327,13 +330,13 @@ class Servers < Test::Unit::TestCase
       fail('Timeout resizing server.')
     end
  
-    check_server(server, @@image_ref, 3, 'VERIFY_RESIZE')
+    check_server(server, @@image_ref, flavor_ref_resize, 'VERIFY_RESIZE')
 
     server.confirm_resize!
     server = @conn.server(@@server.id)
     assert_equal('ACTIVE', @@server.status)
 
-    check_server(server, @@image_ref, 3)
+    check_server(server, @@image_ref, flavor_ref_resize)
 
   end if TEST_RESIZE_SERVER == "true"
 

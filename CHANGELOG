@@ -1,0 +1,5 @@
+* Sat Oct 29 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.1
+  - Add config options to support custom flavor settings.
+
+* Fri Oct 28 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.0
+  - Initial release.

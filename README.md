@@ -24,6 +24,10 @@ Installation
 	#image_name:
 	#image_ref:
 
+	# FLAVORS (Set one of the following)
+	#flavor_name: 
+	flavor_ref: 4
+
 	# TIMEOUTS
 	#ping_timeout: 60
 	#ssh_timeout: 30
