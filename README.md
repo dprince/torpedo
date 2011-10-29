@@ -15,6 +15,11 @@ Installation
     cat > ~/.torpedo.conf <<"EOF_CAT"
 	# YAML config file for torpedo
 
+	# timeouts
+	server_build_timeout: 120
+	ping_timeout: 60
+	ssh_timeout: 30
+
 	# SERVER test settings
 	test_create_image: false
 	test_rebuild_server: false
@@ -27,10 +32,6 @@ Installation
 	# FLAVORS (Set one of the following)
 	#flavor_name: 
 	flavor_ref: 4
-
-	# TIMEOUTS
-	#ping_timeout: 60
-	#ssh_timeout: 30
 
 	# SSH KEYS (used to verify images which use an agent)
 	#ssh_private_key: 
