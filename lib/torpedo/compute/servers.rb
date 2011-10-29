@@ -83,7 +83,7 @@ class Servers < Test::Unit::TestCase
       timeout(SERVER_BUILD_TIMEOUT) do
         until server.status == check_status do
           if server.status == "ERROR" then
-            fail('Server ERROR state detected when booting instance!')
+            fail('Server ERROR state detected when booting server!')
           end
           server = @conn.server(server.id)
           sleep 1
@@ -117,7 +117,7 @@ class Servers < Test::Unit::TestCase
     server = create_server(options)
     assert_not_nil(@@server.adminPass)
 
-    #boot an instance and check it
+    #boot a server and check it
     check_server(server, @@image_ref, @@flavor_ref)
 
     assert_equal "value1", @@server.metadata['key1']
@@ -228,7 +228,7 @@ class Servers < Test::Unit::TestCase
   end if TEST_CREATE_IMAGE
 
  
-  def test_030_rebuild_instance
+  def test_030_rebuild
     # make sure our snapshot boots
     personalities={SSH_PUBLIC_KEY => "/root/.ssh/authorized_keys"}
     @@server.rebuild!(:imageRef => @@image_ref, :personality => personalities)
