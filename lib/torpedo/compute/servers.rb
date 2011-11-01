@@ -142,12 +142,12 @@ class Servers < Test::Unit::TestCase
   def test_003_update_one_server_metadata_item
 
     metadata = @@server.metadata
-    metadata['foo1'] = 'bar1'
-    assert metadata.update('foo1')
+    metadata['foo0'] = 'bar0'
+    assert metadata.update('foo0')
 
     metadata.refresh
 
-    assert_equal 'bar1', metadata['foo1']
+    assert_equal 'bar0', metadata['foo0']
 
     assert_equal 1, metadata.size
  
@@ -156,22 +156,25 @@ class Servers < Test::Unit::TestCase
   def test_004_update_some_server_metadata_items
 
     metadata = @@server.metadata
+    metadata.clear
     metadata['foo1'] = 'bar1'
     metadata['foo2'] = 'bar2'
-    assert metadata.update(['foo1','foo2'])
+    assert metadata.update()
 
     metadata.refresh
 
+    assert_equal 'bar0', metadata['foo0']
     assert_equal 'bar1', metadata['foo1']
     assert_equal 'bar2', metadata['foo2']
 
-    assert_equal 2, metadata.size
+    assert_equal 3, metadata.size
  
   end
 
   def test_005_set_server_metadata_items
 
     metadata = @@server.metadata
+    metadata.clear
     metadata['foo1'] = 'better'
     metadata['foo2'] = 'watch'
     metadata['foo3'] = 'out!'
