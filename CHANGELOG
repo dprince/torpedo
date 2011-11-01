@@ -1,3 +1,7 @@
+* Tue Nov 1 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.6
+  -Minor metadata test updates.
+  -Don't require test-unit (breaks Ruby 1.8.7)
+
 * Tue Nov 1 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.5
   -Require test-unit if using Ruby 1.9.2.
   -Disable test-unit-ext if using Ruby 1.9.2 (currently supports Ruby 1.8.x)
