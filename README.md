@@ -71,7 +71,7 @@ Run all tests with debug HTTP request response output:
 
 	DEBUG=true torpedo fire
 
-Run all tests and output an Xunit style XML report (Ruby 1.8.x only):
+Run all tests and output an XML report (Ruby 1.8.x only):
 
 	torpedo fire --xml-report=FILE
 
