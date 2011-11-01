@@ -37,9 +37,9 @@ Installation
 	#flavor_name: 
 	flavor_ref: 4
 
-	# SSH KEYS (used to verify images which use an agent)
-	#ssh_private_key: 
-	#ssh_public_key: 
+	# SSH KEYS (used to verify installations which support personalities)
+	#ssh_private_key: <your home dir>/.ssh/id_rsa
+	#ssh_public_key: <your home dir>/.ssh/id_rsa.pub
 
 	# KEYPAIRS (used to verify AMI style images)
 	#keypair: test.pem
@@ -71,7 +71,7 @@ Run all tests with debug HTTP request response output:
 
 	DEBUG=true torpedo fire
 
-Run all tests and output an Xunit style XML report:
+Run all tests and output an Xunit style XML report (Ruby 1.8.x only):
 
 	torpedo fire --xml-report=FILE
 

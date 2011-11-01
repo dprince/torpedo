@@ -1,4 +1,8 @@
-require 'test-unit-ext'
+if RUBY_VERSION =~ /^1.9.*/ then
+  gem 'test-unit'
+else
+  require 'test-unit-ext'
+end
 require 'test/unit'
 gem 'openstack-compute', OPENSTACK_COMPUTE_VERSION
 require 'openstack/compute'
