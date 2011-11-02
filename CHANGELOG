@@ -1,3 +1,8 @@
+* Wed Nov 2 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.7
+  -Add support for NOVA_REGION_NAME and NOVA_PROJECT_ID.
+  -Remove dependency on test-unit-ext.
+  -Add support for OS_AUTH_? style variables.
+
 * Tue Nov 1 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.6
   -Minor metadata test updates.
   -Don't require test-unit (breaks Ruby 1.8.7)

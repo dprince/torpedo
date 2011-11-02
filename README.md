@@ -46,7 +46,7 @@ Installation
 	#keyname: test
 	EOF_CAT
 
-	source novarc
+	source $PATH_TO_YOUR/novarc
 ```
 
 Examples
@@ -70,10 +70,6 @@ Run all tests:
 Run all tests with debug HTTP request response output:
 
 	DEBUG=true torpedo fire
-
-Run all tests and output an XML report (Ruby 1.8.x only):
-
-	torpedo fire --xml-report=FILE
 
 Payload
 --------

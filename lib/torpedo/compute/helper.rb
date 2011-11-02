@@ -1,7 +1,5 @@
 if RUBY_VERSION =~ /^1.9.*/ then
   gem 'test-unit'
-else
-  require 'test-unit-ext'
 end
 require 'test/unit'
 gem 'openstack-compute', OPENSTACK_COMPUTE_VERSION
@@ -16,7 +14,14 @@ module Helper
     if ENV['DEBUG'] and ENV['DEBUG'] == 'true' then
         debug = true
     end
-    OpenStack::Compute::Connection.new(:username => USERNAME, :api_key => API_KEY, :auth_url => API_URL, :is_debug => debug)
+
+    auth_url = ENV['NOVA_URL'] || ENV['OS_AUTH_URL']
+    api_key = ENV['NOVA_API_KEY'] || ENV['OS_AUTH_KEY']
+    username = ENV['NOVA_USERNAME'] || ENV['OS_AUTH_USER']
+    authtenant = ENV['NOVA_PROJECT_ID'] || ENV['OS_AUTH_TENANT']
+    region = ENV['NOVA_REGION_NAME'] || ENV['OS_AUTH_REGION']
+
+    OpenStack::Compute::Connection.new(:username => username, :api_key => api_key, :auth_url => auth_url, :region => region, :authtenant => authtenant, :is_debug => debug)
   end
 
   def self.get_image_ref(conn)

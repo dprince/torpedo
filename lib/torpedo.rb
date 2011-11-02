@@ -25,10 +25,6 @@ FLAVOR_NAME_RESIZE=configs['flavor_name_resize']
 
 OPENSTACK_COMPUTE_VERSION=configs['openstack_compute_version'] || '1.1.4'
 
-USERNAME=ENV['NOVA_USERNAME']
-API_KEY=ENV['NOVA_API_KEY']
-API_URL=ENV['NOVA_URL']
-
 module Torpedo
 class Tasks < Thor
 
