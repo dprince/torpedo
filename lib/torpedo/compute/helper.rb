@@ -2,7 +2,9 @@ if RUBY_VERSION =~ /^1.9.*/ then
   gem 'test-unit'
 end
 require 'test/unit'
-gem 'openstack-compute', OPENSTACK_COMPUTE_VERSION
+if OPENSTACK_COMPUTE_VERSION
+  gem 'openstack-compute', OPENSTACK_COMPUTE_VERSION
+end
 require 'openstack/compute'
 
 module Torpedo

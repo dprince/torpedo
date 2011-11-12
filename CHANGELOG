@@ -1,3 +1,7 @@
+* Fri Nov 11 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.8
+  -Use the latest version of the openstack-compute unless a specific
+   version is specified in the config file.
+
 * Wed Nov 2 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.7
   -Add support for NOVA_REGION_NAME and NOVA_PROJECT_ID.
   -Remove dependency on test-unit-ext.

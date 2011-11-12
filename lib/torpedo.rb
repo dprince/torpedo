@@ -23,7 +23,7 @@ FLAVOR_NAME=configs['flavor_name']
 FLAVOR_REF_RESIZE=configs['flavor_ref_resize']
 FLAVOR_NAME_RESIZE=configs['flavor_name_resize']
 
-OPENSTACK_COMPUTE_VERSION=configs['openstack_compute_version'] || '1.1.4'
+OPENSTACK_COMPUTE_VERSION=configs['openstack_compute_version']
 
 module Torpedo
 class Tasks < Thor
