@@ -37,6 +37,10 @@ Installation
 	#flavor_name: 
 	flavor_ref: 4
 
+	# SSH/PING test options
+	#test_ssh: true
+	#test_ping: true
+
 	# SSH KEYS (used to verify installations which support personalities)
 	#ssh_private_key: <your home dir>/.ssh/id_rsa
 	#ssh_public_key: <your home dir>/.ssh/id_rsa.pub

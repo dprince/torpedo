@@ -95,8 +95,8 @@ class Servers < Test::Unit::TestCase
 
     # lookup the first IPv4 address and use that for verification
     v4_addresses = server.addresses[:public].reject {|addr| addr.version != 4}
-    ping_test(v4_addresses[0].address)
-    ssh_test(v4_addresses[0].address)
+    ping_test(v4_addresses[0].address) if TEST_PING
+    ssh_test(v4_addresses[0].address) if TEST_SSH
 
     server
 
