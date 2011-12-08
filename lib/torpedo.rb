@@ -12,7 +12,12 @@ SSH_PRIVATE_KEY=configs['ssh_private_key'] || ENV['HOME'] + "/.ssh/id_rsa"
 SSH_PUBLIC_KEY=configs['ssh_public_key'] || ENV['HOME'] + "/.ssh/id_rsa.pub"
 TEST_CREATE_IMAGE=configs['test_create_image'] || false
 TEST_REBUILD_SERVER=configs['test_rebuild_server'] || false
+TEST_SOFT_REBOOT_SERVER=configs['test_soft_reboot_server'] || false
+TEST_HARD_REBOOT_SERVER=configs['test_hard_reboot_server'] || false
 TEST_RESIZE_SERVER=configs['test_resize_server'] || false
+TEST_REVERT_RESIZE_SERVER=configs['test_revert_resize_server'] || false
+TEST_ADMIN_PASSWORD=configs['test_admin_password'] || false
+TEST_HOSTID_ON_RESIZE=configs['test_hostid_on_resize'] || false
 KEYPAIR=configs['keypair']
 KEYNAME=configs['keyname']
 

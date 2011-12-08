@@ -1,3 +1,8 @@
+* Wed Dec 7 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.10
+  -Add admin password and change password tests.
+  -Add revert resize test.
+  -Add hard and soft reboot tests.
+
 * Wed Nov 16 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.9
   -Add options to disable ssh and ping tests.
 

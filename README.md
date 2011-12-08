@@ -28,6 +28,10 @@ Installation
 	test_create_image: false
 	test_rebuild_server: false
 	test_resize_server: false
+	test_revert_resize_server: false
+	test_admin_password: false
+	test_soft_reboot_server: false
+	test_hard_reboot_server: false
 
 	# IMAGES (Set one of the following)
 	image_name: Ubuntu Natty (11.04)
@@ -45,7 +49,7 @@ Installation
 	#ssh_private_key: <your home dir>/.ssh/id_rsa
 	#ssh_public_key: <your home dir>/.ssh/id_rsa.pub
 
-	# KEYPAIRS (used to verify AMI style images)
+	# KEYPAIRS (used to verify images that support keypairs)
 	#keypair: test.pem
 	#keyname: test
 	EOF_CAT
@@ -83,7 +87,7 @@ Payload
 * list images
 * get image
 * list limits
-* create server (ping and ssh test)
+* create server (ping and ssh test w/ admin password and personality)
 * delete server metadata items
 * update one server metadata item
 * update multiple server metadata items
@@ -93,6 +97,9 @@ Payload
 * rebuild server (ping and ssh test)
 * resize server (ping and ssh test)
 * resize confirm (ping and ssh test)
+* resize revert (ping and ssh test)
+* soft reboot (ping and ssh test)
+* hard reboot (ping and ssh test)
 * delete image metadata
 * update one image metadata item
 * update multiple image metadata items

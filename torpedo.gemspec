@@ -5,13 +5,13 @@
 
 Gem::Specification.new do |s|
   s.name = %q{torpedo}
-  s.version = "1.0.7"
+  s.version = "1.0.10"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dan Prince"]
-  s.date = %q{2011-11-02}
+  s.date = %q{2011-12-07}
   s.default_executable = %q{torpedo}
-  s.description = %q{CLI to run functional smoke tests for OpenStack.}
+  s.description = %q{Fast integration tests OpenStack Compute.}
   s.email = %q{dan.prince@rackspace.com}
   s.executables = ["torpedo"]
   s.extra_rdoc_files = [
@@ -36,14 +36,13 @@ Gem::Specification.new do |s|
     "lib/torpedo/compute/servers.rb",
     "lib/torpedo/config.rb",
     "test/helper.rb",
-    "test/test_torpedo.rb",
     "torpedo.gemspec"
   ]
   s.homepage = %q{http://github.com/dprince/torpedo}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Sink bad code! Ruby Smoke Tests for OpenStack.}
+  s.summary = %q{Fire when ready. Fast Ruby integration tests for OpenStack.}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
@@ -52,19 +51,22 @@ Gem::Specification.new do |s|
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
-      s.add_runtime_dependency(%q<thor>, [">= 0"])
-      s.add_runtime_dependency(%q<openstack-compute>, [">= 1.1.4"])
+      s.add_runtime_dependency(%q<thor>, ["~> 0.14.6"])
+      s.add_runtime_dependency(%q<openstack-compute>, ["~> 1.1.5"])
+      s.add_runtime_dependency(%q<net-ssh>, ["~> 2.2.1"])
     else
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
-      s.add_dependency(%q<thor>, [">= 0"])
-      s.add_dependency(%q<openstack-compute>, [">= 1.1.4"])
+      s.add_dependency(%q<thor>, ["~> 0.14.6"])
+      s.add_dependency(%q<openstack-compute>, ["~> 1.1.5"])
+      s.add_dependency(%q<net-ssh>, ["~> 2.2.1"])
     end
   else
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
-    s.add_dependency(%q<thor>, [">= 0"])
-    s.add_dependency(%q<openstack-compute>, [">= 1.1.4"])
+    s.add_dependency(%q<thor>, ["~> 0.14.6"])
+    s.add_dependency(%q<openstack-compute>, ["~> 1.1.5"])
+    s.add_dependency(%q<net-ssh>, ["~> 2.2.1"])
   end
 end
 
