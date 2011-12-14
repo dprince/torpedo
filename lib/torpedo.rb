@@ -11,6 +11,8 @@ SSH_PUBLIC_KEY=configs['ssh_public_key'] || ENV['HOME'] + "/.ssh/id_rsa.pub"
 TEST_CREATE_IMAGE=configs['test_create_image'] || false
 TEST_REBUILD_SERVER=configs['test_rebuild_server'] || false
 TEST_RESIZE_SERVER=configs['test_resize_server'] || false
+CLEAN_UP_SERVERS=configs.fetch('clean_up_servers', true)
+CLEAN_UP_IMAGES=configs.fetch('clean_up_images', true)
 KEYPAIR=configs['keypair']
 KEYNAME=configs['keyname']
 
