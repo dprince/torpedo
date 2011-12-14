@@ -48,7 +48,7 @@ class Servers < Test::Unit::TestCase
 
   def ssh_test(ip_addr, test_cmd="hostname", test_output=@@hostname, admin_pass=@@admin_pass)
 
-    ssh_opts = {}
+    ssh_opts = {:paranoid => false}
     if TEST_ADMIN_PASSWORD then
       ssh_opts.store(:password, admin_pass)
     else
