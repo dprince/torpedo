@@ -2,6 +2,7 @@
   -Set paranoid to false for ssh connection tests. (net-ssh)
   -Add options to disable server and image cleanup.
   -Remove sort on image id (we now use UUID's)
+  -Add setup test to initialize image and flavor refs.
 
 * Wed Dec 7 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.10
   -Add admin password and change password tests.

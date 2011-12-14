@@ -8,9 +8,9 @@ class Servers < Test::Unit::TestCase
 
   @@servers = []
   @@images = []
-  @@image_ref = Helper::get_image_ref(Helper::get_connection)
-  @@flavor_ref = Helper::get_flavor_ref(Helper::get_connection)
-  @@flavor_ref_resize = Helper::get_flavor_ref_resize(@conn)
+  @@image_ref = nil
+  @@flavor_ref = nil
+  @@flavor_ref_resize = nil
   @@server = nil #ref to last created server
   @@hostname = "torpedo"
 
@@ -133,6 +133,24 @@ class Servers < Test::Unit::TestCase
 
     server
 
+  end
+
+  def test_000_setup
+    begin
+      @@image_ref = Helper::get_image_ref(Helper::get_connection)
+    rescue Exception => e
+      fail("Failed get image ref: #{e.message}")
+    end
+    begin
+      @@flavor_ref = Helper::get_flavor_ref(Helper::get_connection)
+    rescue Exception => e
+      fail("Failed get flavor ref: #{e.message}")
+    end
+    begin
+      @@flavor_ref_resize = Helper::get_flavor_ref_resize(@conn)
+    rescue Exception => e
+      fail("Failed get flavor ref resize: #{e.message}")
+    end
   end
 
   def test_001_create_server
