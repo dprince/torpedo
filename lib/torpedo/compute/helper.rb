@@ -39,7 +39,8 @@ module Helper
       end
     elsif image_ref.nil? or image_ref.empty? then
       #take the last image if IMAGE_REF and or IMAGE_NAME aren't set
-      images = conn.images.sort{|x,y| x[:id] <=> y[:id]}
+      images = conn.images
+      raise "Image list is empty." if images.empty?
       image_ref = images.last[:id].to_s
     end
 
