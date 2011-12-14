@@ -4,9 +4,9 @@ require 'torpedo/config'
 configs = Torpedo::Config.load_configs
 
 SSH_TIMEOUT=(configs['ssh_timeout'] || 30).to_i
-TEST_SSH=configs['test_ssh'] || true
+TEST_SSH=configs.fetch('test_ssh', true)
 PING_TIMEOUT=(configs['ping_timeout'] || 60).to_i
-TEST_PING=configs['test_ping'] || true
+TEST_PING=configs.fetch('test_ping', true)
 SERVER_BUILD_TIMEOUT=(configs['server_build_timeout'] || 60).to_i
 SSH_PRIVATE_KEY=configs['ssh_private_key'] || ENV['HOME'] + "/.ssh/id_rsa"
 SSH_PUBLIC_KEY=configs['ssh_public_key'] || ENV['HOME'] + "/.ssh/id_rsa.pub"
@@ -18,6 +18,8 @@ TEST_RESIZE_SERVER=configs['test_resize_server'] || false
 TEST_REVERT_RESIZE_SERVER=configs['test_revert_resize_server'] || false
 TEST_ADMIN_PASSWORD=configs['test_admin_password'] || false
 TEST_HOSTID_ON_RESIZE=configs['test_hostid_on_resize'] || false
+CLEAN_UP_SERVERS=configs.fetch('clean_up_servers', true)
+CLEAN_UP_IMAGES=configs.fetch('clean_up_images', true)
 KEYPAIR=configs['keypair']
 KEYNAME=configs['keyname']
 

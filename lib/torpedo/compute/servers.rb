@@ -448,11 +448,15 @@ class Servers < Test::Unit::TestCase
   end if TEST_CREATE_IMAGE
 
   def test_999_teardown
-    @@servers.each do |server|
-      assert_equal(true, server.delete!)
+    if CLEAN_UP_SERVERS
+      @@servers.each do |server|
+        assert_equal(true, server.delete!)
+      end
     end
-    @@images.each do |image|
-      assert_equal(true, image.delete!)
+    if CLEAN_UP_IMAGES
+      @@images.each do |image|
+        assert_equal(true, image.delete!)
+      end
     end
   end
 
