@@ -1,3 +1,8 @@
+* Wed Dec 14 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.11
+  -Set paranoid to false for ssh connection tests. (net-ssh)
+  -Add options to disable server and image cleanup.
+  -Remove sort on image id (we now use UUID's)
+
 * Wed Dec 7 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.10
   -Add admin password and change password tests.
   -Add revert resize test.
