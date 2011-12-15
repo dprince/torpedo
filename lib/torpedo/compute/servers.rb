@@ -66,7 +66,7 @@ class Servers < Test::Unit::TestCase
             Net::SSH.start(ip_addr, 'root', ssh_opts) do |ssh|
                 return ssh.exec!(test_cmd) == test_output
             end
-          rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Net::SSH::Exception
+          rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Errno::ECONNRESET, Net::SSH::Exception
             next
           end
         end

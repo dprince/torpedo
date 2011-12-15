@@ -1,3 +1,5 @@
+  -Retry ssh on Errno::ECONNRESET.
+
 * Wed Dec 14 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.11
   -Set paranoid to false for ssh connection tests. (net-ssh)
   -Add options to disable server and image cleanup.
