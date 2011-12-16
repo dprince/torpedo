@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/helper'
+require 'torpedo/compute/helper'
 require 'tempfile'
 require 'net/ssh'
 
