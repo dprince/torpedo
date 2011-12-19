@@ -64,13 +64,15 @@ class Tasks < Thor
       conn = Torpedo::Compute::Helper::get_connection
       conn.servers.each do |server|
         server = conn.server(server[:id])
-        puts "Deleting server #{server.name}"
-        server.delete!
+        if server.name == 'torpedo'
+          puts 'Deleting torpedo server'
+          server.delete!
+        end
       end
       conn.images.each do |image|
         image = conn.image(image[:id])
-        if image.server # only delete snapshots
-          puts "Deleting image #{image.name}"
+        if image.server and conn.server(image.server['id']).name == 'torpedo'
+          puts 'Deleting torpedo image'
           image.delete!
         end
       end
