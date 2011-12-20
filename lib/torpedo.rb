@@ -34,6 +34,8 @@ FLAVOR_NAME_RESIZE=configs['flavor_name_resize']
 
 OPENSTACK_COMPUTE_VERSION=configs['openstack_compute_version']
 
+require 'torpedo/compute/helper'
+
 module Torpedo
 class Tasks < Thor
 
@@ -55,6 +57,25 @@ class Tasks < Thor
     desc "servers", "Run servers tests for the OSAPI."
     def servers
       require 'torpedo/compute/servers'
+    end
+
+    desc "cleanup", "Clean up servers and images (not necessary normally)."
+    def cleanup
+      conn = Torpedo::Compute::Helper::get_connection
+      conn.servers.each do |server|
+        server = conn.server(server[:id])
+        if server.name == 'torpedo'
+          puts 'Deleting torpedo server'
+          server.delete!
+        end
+      end
+      conn.images.each do |image|
+        image = conn.image(image[:id])
+        if image.server and conn.server(image.server['id']).name == 'torpedo'
+          puts 'Deleting torpedo image'
+          image.delete!
+        end
+      end
     end
 
     desc "all", "Run all tests."
