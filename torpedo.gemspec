@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{torpedo}
-  s.version = "1.0.10"
+  s.version = "1.0.12"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dan Prince"]
-  s.date = %q{2011-12-07}
+  s.date = %q{2011-12-30}
   s.default_executable = %q{torpedo}
   s.description = %q{Fast integration tests OpenStack Compute.}
   s.email = %q{dan.prince@rackspace.com}

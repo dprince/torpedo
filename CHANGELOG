@@ -1,4 +1,6 @@
+* Fri Dec 30 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.12
   -Retry ssh on Errno::ECONNRESET.
+  -Added cleanup task.
 
 * Wed Dec 14 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.11
   -Set paranoid to false for ssh connection tests. (net-ssh)
