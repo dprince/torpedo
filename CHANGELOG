@@ -1,3 +1,7 @@
+* Fri Jan 6 2012 Dan Prince <dan.prince@rackspace.com> - 1.0.13
+  -Update image check to allow a status other than 'ACTIVE'. Fixes
+   issues when running concurrent Torpedo jobs.
+
 * Fri Dec 30 2011 Dan Prince <dan.prince@rackspace.com> - 1.0.12
   -Retry ssh on Errno::ECONNRESET.
   -Added cleanup task.
