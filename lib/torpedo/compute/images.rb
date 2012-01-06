@@ -14,7 +14,7 @@ class Images < Test::Unit::TestCase
     @conn.images.each do |image|
       assert_not_nil(image[:id])
       assert_not_nil(image[:name])
-      assert_equal("ACTIVE", image[:status])
+      assert_not_nil(image[:status])
     end
 
   end
