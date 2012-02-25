@@ -1,3 +1,9 @@
+* Fri Feb 24 2012 Dan Prince <dprince@redhat.com> - 1.0.14
+  -Update OS_ variables to match Openstack standard.
+   OS_AUTH_KEY is now OS_PASSWORD
+   OS_AUTH_USER is now OS_USERNAME
+   OS_AUTH_TENANT is now OS_TENANT_NAME
+
 * Fri Jan 6 2012 Dan Prince <dan.prince@rackspace.com> - 1.0.13
   -Update image check to allow a status other than 'ACTIVE'. Fixes
    issues when running concurrent Torpedo jobs.
