@@ -17,13 +17,18 @@ module Helper
         debug = true
     end
 
+    auth_method = 'password'
+    if ENV['NOVA_RAX_AUTH'] and ENV['NOVA_RAX_AUTH'] == '1' then
+      auth_method = 'rax-kskey'
+    end
+
     auth_url = ENV['NOVA_URL'] || ENV['OS_AUTH_URL']
     api_key = ENV['NOVA_API_KEY'] || ENV['OS_PASSWORD']
     username = ENV['NOVA_USERNAME'] || ENV['OS_USERNAME']
     authtenant = ENV['NOVA_PROJECT_ID'] || ENV['OS_TENANT_NAME']
     region = ENV['NOVA_REGION_NAME'] || ENV['OS_AUTH_REGION']
 
-    OpenStack::Compute::Connection.new(:username => username, :api_key => api_key, :auth_url => auth_url, :region => region, :authtenant => authtenant, :is_debug => debug)
+    OpenStack::Compute::Connection.new(:username => username, :api_key => api_key, :auth_url => auth_url, :region => region, :authtenant => authtenant, :is_debug => debug, :auth_method => auth_method)
   end
 
   def self.get_image_ref(conn)
