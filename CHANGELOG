@@ -1,3 +1,6 @@
+* Fri Mar 16 2012 Dan Prince <dprince@redhat.com> - 1.0.15
+  -Set auth_method = 'rax-kskey' if NOVA_RAX_AUTH is set.
+
 * Fri Feb 24 2012 Dan Prince <dprince@redhat.com> - 1.0.14
   -Update OS_ variables to match Openstack standard.
    OS_AUTH_KEY is now OS_PASSWORD
