@@ -271,6 +271,11 @@ class Servers < Test::Unit::TestCase
       fail('Timeout creating image snapshot.')
     end
 
+    # Sleep for a while to deal with the delay between the image going active
+    # and when we are actually allowed to do stuff to the instance again.
+    # This workaround should be removed when compute is fixed.
+    sleep 15
+
     # Overwrite image_ref to make all subsequent tests use this snapshot
     @@image_ref = image.id.to_s
 
