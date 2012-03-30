@@ -27,8 +27,19 @@ module Helper
     username = ENV['NOVA_USERNAME'] || ENV['OS_USERNAME']
     authtenant = ENV['NOVA_PROJECT_ID'] || ENV['OS_TENANT_NAME']
     region = ENV['NOVA_REGION_NAME'] || ENV['OS_AUTH_REGION']
+    service_name = ENV['NOVA_SERVICE_NAME'] || "compute"
 
-    OpenStack::Compute::Connection.new(:username => username, :api_key => api_key, :auth_url => auth_url, :region => region, :authtenant => authtenant, :is_debug => debug, :auth_method => auth_method)
+    OpenStack::Compute::Connection.new(
+        :username     => username,
+        :api_key      => api_key,
+        :auth_url     => auth_url,
+        :region       => region,
+        :authtenant   => authtenant,
+        :is_debug     => debug,
+        :auth_method  => auth_method,
+        :service_name => service_name
+    )
+
   end
 
   def self.get_image_ref(conn)
