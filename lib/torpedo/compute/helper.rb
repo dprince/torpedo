@@ -28,6 +28,7 @@ module Helper
     authtenant = ENV['NOVA_PROJECT_ID'] || ENV['OS_TENANT_NAME']
     region = ENV['NOVA_REGION_NAME'] || ENV['OS_AUTH_REGION']
     service_name = ENV['NOVA_SERVICE_NAME'] || "compute"
+    service_type = ENV['NOVA_SERVICE_TYPE'] || "compute"
 
     OpenStack::Compute::Connection.new(
         :username     => username,
@@ -37,7 +38,8 @@ module Helper
         :authtenant   => authtenant,
         :is_debug     => debug,
         :auth_method  => auth_method,
-        :service_name => service_name
+        :service_name => service_name,
+        :service_type => service_type
     )
 
   end
