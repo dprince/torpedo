@@ -1,3 +1,7 @@
+* Mon Apr 2 2012 Dan Prince <dprince@redhat.com> - 1.0.16
+  -Add NOVA_SERVICE_NAME env setting (defaults is nil)
+  -Add NOVA_SERVICE_TYPE env setting (default is 'compute')
+
 * Fri Mar 16 2012 Dan Prince <dprince@redhat.com> - 1.0.15
   -Set auth_method = 'rax-kskey' if NOVA_RAX_AUTH is set.
 
