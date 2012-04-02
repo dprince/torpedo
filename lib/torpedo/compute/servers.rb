@@ -271,6 +271,8 @@ class Servers < Test::Unit::TestCase
       fail('Timeout creating image snapshot.')
     end
 
+    sleep SLEEP_AFTER_IMAGE_CREATE;
+
     # Overwrite image_ref to make all subsequent tests use this snapshot
     @@image_ref = image.id.to_s
 

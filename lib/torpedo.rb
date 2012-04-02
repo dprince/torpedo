@@ -8,6 +8,7 @@ TEST_SSH=configs.fetch('test_ssh', true)
 PING_TIMEOUT=(configs['ping_timeout'] || 60).to_i
 TEST_PING=configs.fetch('test_ping', true)
 SERVER_BUILD_TIMEOUT=(configs['server_build_timeout'] || 60).to_i
+SLEEP_AFTER_IMAGE_CREATE=(configs['sleep_after_image_create'] || 0).to_i
 SSH_PRIVATE_KEY=configs['ssh_private_key'] || ENV['HOME'] + "/.ssh/id_rsa"
 SSH_PUBLIC_KEY=configs['ssh_public_key'] || ENV['HOME'] + "/.ssh/id_rsa.pub"
 TEST_CREATE_IMAGE=configs['test_create_image'] || false
