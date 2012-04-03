@@ -250,9 +250,9 @@ class Servers < Test::Unit::TestCase
   def test_020_create_image
 
     #snapshot the image
-    image = create_image(@@server, :name => "My Backup", :metadata => {"key1" => "value1"})
+    image = create_image(@@server, :name => "torpedo", :metadata => {"key1" => "value1"})
     assert_equal('SAVING', image.status)
-    assert_equal('My Backup', image.name)
+    assert_equal('torpedo', image.name)
     assert_equal(25, image.progress)
     #FIXME: server id should be a uuid string
     assert_equal(@@server.id.to_s, image.server['id'])
