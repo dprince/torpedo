@@ -14,6 +14,6 @@ class Limits < Test::Unit::TestCase
 
   end
 
-end
+end if TEST_LIMITS
 end
 end

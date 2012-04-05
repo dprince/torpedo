@@ -5,6 +5,7 @@ require "thor"
 
 # uncomment this for local testing
 #$:.unshift File.dirname(__FILE__) + "/../lib"
+STDOUT.sync = true
 
 require "torpedo"
 
