@@ -1,3 +1,8 @@
+* Mon Apr 9 2012 Dan Prince <dprince@redhat.com> - 1.0.17
+  -Adding SLEEP_AFTER_IMAGE_CREATE env option.
+  -Added 'test_limits' option.
+  -Added 'test_ip_type' Set to '4' (for IPv4) or '6' (for IPv6).
+
 * Mon Apr 2 2012 Dan Prince <dprince@redhat.com> - 1.0.16
   -Add NOVA_SERVICE_NAME env setting (defaults is nil)
   -Add NOVA_SERVICE_TYPE env setting (default is 'compute')

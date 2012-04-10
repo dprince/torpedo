@@ -108,4 +108,4 @@ Payload
 
 License
 -------
-Copyright (c) 2011 Dan Prince. See LICENSE.txt for further details.
+Copyright (c) 2011-2012 Dan Prince. See LICENSE.txt for further details.
