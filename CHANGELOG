@@ -1,3 +1,6 @@
+* Mon Nov 12 2012 Dan Prince <dprince@redhat.com> - 1.0.18
+  -Fixes to host_id validation on resize/resize_revert tests.
+
 * Mon Apr 9 2012 Dan Prince <dprince@redhat.com> - 1.0.17
   -Adding SLEEP_AFTER_IMAGE_CREATE env option.
   -Added 'test_limits' option.

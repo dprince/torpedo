@@ -13,6 +13,7 @@ class Servers < Test::Unit::TestCase
   @@flavor_ref_resize = nil
   @@server = nil #ref to last created server
   @@hostname = "torpedo"
+  @@host_id = nil
 
   def setup
     @conn=Helper::get_connection
@@ -22,7 +23,6 @@ class Servers < Test::Unit::TestCase
     @@server = @conn.create_server(server_opts)
     @@servers << @@server
     @@admin_pass = @@server.adminPass #original admin_pass
-    @@host_id = @@server.hostId #original host ID
     @@server
   end
 
@@ -321,6 +321,10 @@ class Servers < Test::Unit::TestCase
 
   def test_040_resize_revert
 
+    # before resizing obtain host_id
+    server = @conn.server(@@server.id)
+    @@host_id = server.hostId #original host ID
+
     @@server.resize!(@@flavor_ref_resize)
     server = @conn.server(@@server.id)
     assert_equal('RESIZE', server.status)
@@ -355,11 +359,15 @@ class Servers < Test::Unit::TestCase
     end
 
     check_server(server, @@image_ref, @@flavor_ref)
-    assert_equal(server.hostId, @@host_id)
+    assert_equal(@@host_id, server.hostId)
 
   end if TEST_REVERT_RESIZE_SERVER
 
   def test_041_resize
+
+    # before resizing obtain host_id
+    server = @conn.server(@@server.id)
+    @@host_id = server.hostId #original host ID
 
     @@server.resize!(@@flavor_ref_resize)
     server = @conn.server(@@server.id)
@@ -380,7 +388,7 @@ class Servers < Test::Unit::TestCase
     end
  
     check_server(server, @@image_ref, @@flavor_ref_resize, 'VERIFY_RESIZE')
-    assert_not_equal(server.hostId, @@host_id) if TEST_HOSTID_ON_RESIZE
+    assert_not_equal(@@host_id, server.hostId) if TEST_HOSTID_ON_RESIZE
 
   end if TEST_RESIZE_SERVER
 
