@@ -1,3 +1,6 @@
+* Thu Feb 14 2013 Dan Prince <dprince@redhat.com> - 1.0.19
+  -Added NETWORK_LABEL option. (defaults to 'public')
+
 * Mon Nov 12 2012 Dan Prince <dprince@redhat.com> - 1.0.18
   -Fixes to host_id validation on resize/resize_revert tests.
 

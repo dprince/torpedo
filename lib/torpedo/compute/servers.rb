@@ -119,7 +119,7 @@ class Servers < Test::Unit::TestCase
     end
 
     # lookup the first public IP address and use that for verification
-    addresses = server.addresses[:public].select {|a| a.version == TEST_IP_TYPE}
+    addresses = server.addresses[NETWORK_LABEL.to_sym].select {|a| a.version == TEST_IP_TYPE}
     address = addresses[0].address
     ping_test(address) if TEST_PING
     if TEST_SSH
