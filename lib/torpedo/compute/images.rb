@@ -12,20 +12,20 @@ class Images < Test::Unit::TestCase
   def test_list
 
     @conn.images.each do |image|
-      assert_not_nil(image[:id])
-      assert_not_nil(image[:name])
-      assert_not_nil(image[:status])
+      assert_not_nil(image.id)
+      assert_not_nil(image.name)
+      assert_not_nil(image.status)
     end
 
   end
 
   def test_get
 
-    image=@conn.image(@image_id)
+    image=@conn.images.get(@image_id)
     assert_equal(@image_id, image.id.to_s)
     assert_not_nil(image.name)
-    assert_not_nil(image.updated)
-    assert_not_nil(image.created)
+    assert_not_nil(image.updated_at)
+    assert_not_nil(image.created_at)
     assert_not_nil(image.status)
 
   end

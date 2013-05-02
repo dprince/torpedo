@@ -10,7 +10,10 @@ class Limits < Test::Unit::TestCase
 
   def test_list
 
-    assert_not_nil @conn.limits
+    limits = @conn.get_limits.body['limits']
+    assert_not_nil limits
+    assert_not_nil limits['rate']
+    assert_not_nil limits['absolute']
 
   end
 

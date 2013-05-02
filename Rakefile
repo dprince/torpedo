@@ -19,12 +19,12 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/dprince/torpedo"
   gem.license = "MIT"
   gem.summary = %Q{Fire when ready. Fast Ruby integration tests for OpenStack.}
-  gem.description = %Q{Fast integration tests OpenStack Compute.}
-  gem.email = "dan.prince@rackspace.com"
+  gem.description = %Q{Fast integration tests OpenStack.}
+  gem.email = "dprince@redhat.com"
   gem.authors = ["Dan Prince"]
   # dependencies defined in Gemfile
   gem.add_dependency 'thor', '~>0.14.6'
-  gem.add_dependency 'openstack-compute', '~>1.1.5'
+  gem.add_dependency 'fog'
   gem.add_dependency('net-ssh', '~>2.2.1')
 end
 Jeweler::RubygemsDotOrgTasks.new

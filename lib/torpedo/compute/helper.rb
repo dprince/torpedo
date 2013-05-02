@@ -2,24 +2,20 @@ if RUBY_VERSION =~ /^1.9.*/ then
   gem 'test-unit'
 end
 require 'test/unit'
-if OPENSTACK_COMPUTE_VERSION
-  gem 'openstack-compute', OPENSTACK_COMPUTE_VERSION
+if FOG_VERSION
+  gem 'fog', FOG_VERSION
 end
-require 'openstack/compute'
+#require 'openstack/compute'
+require 'fog'
 
 module Torpedo
 module Compute
 module Helper
 
   def self.get_connection
-    debug = false
-    if ENV['DEBUG'] and ENV['DEBUG'] == 'true' then
-        debug = true
-    end
 
-    auth_method = 'password'
-    if ENV['NOVA_RAX_AUTH'] and ENV['NOVA_RAX_AUTH'] == '1' then
-      auth_method = 'rax-kskey'
+    if ENV['DEBUG'] and ENV['DEBUG'] == 'true' then
+        ENV['EXCON_DEBUG'] = 'true'
     end
 
     auth_url = ENV['NOVA_URL'] || ENV['OS_AUTH_URL']
@@ -30,16 +26,17 @@ module Helper
     service_type = ENV['NOVA_SERVICE_TYPE'] || "compute"
     service_name = ENV['NOVA_SERVICE_NAME'] #nil by default
 
-    OpenStack::Compute::Connection.new(
-        :username     => username,
-        :api_key      => api_key,
-        :auth_url     => auth_url,
-        :region       => region,
-        :authtenant   => authtenant,
-        :is_debug     => debug,
-        :auth_method  => auth_method,
-        :service_name => service_name,
-        :service_type => service_type
+    #:openstack_auth_url  => 'http://10.16.17.4:5000/v2.0/tokens',
+
+    Fog::Compute.new(
+      :provider           => :openstack,
+      :openstack_auth_url  => auth_url+'/tokens',
+      :openstack_username => username,
+      :openstack_tenant => authtenant,
+      :openstack_api_key => api_key,
+      :openstack_region => region,
+      :openstack_service_type => service_type,
+      :openstack_service_name => service_name
     )
 
   end
@@ -51,15 +48,15 @@ module Helper
 
     if image_name and not image_name.empty? then
       images = conn.images.each do |image|
-        if image[:name] == image_name then
-          image_ref = image[:id]
+        if image.name == image_name then
+          image_ref = image.id
         end
       end
     elsif image_ref.nil? or image_ref.empty? then
       #take the last image if IMAGE_REF and or IMAGE_NAME aren't set
       images = conn.images
       raise "Image list is empty." if images.empty?
-      image_ref = images.last[:id].to_s
+      image_ref = images.last.id.to_s
     end
 
     image_ref
@@ -73,8 +70,8 @@ module Helper
 
     if flavor_name and not flavor_name.empty? then
       flavors = conn.flavors.each do |flavor|
-        if flavor[:name] == flavor_name then
-          flavor_ref = flavor[:id]
+        if flavor.name == flavor_name then
+          flavor_ref = flavor.id
         end
       end
     elsif not flavor_ref or flavor_ref.to_s.empty? then
@@ -94,8 +91,8 @@ module Helper
 
     if flavor_name_resize and not flavor_name_resize.empty? then
       flavors = conn.flavors.each do |flavor|
-        if flavor[:name] == flavor_name_resize then
-          flavor_ref_resize = flavor[:id]
+        if flavor.name == flavor_name_resize then
+          flavor_ref_resize = flavor.id
         end
       end
     elsif not flavor_ref_resize or flavor_ref_resize.to_s.empty? then

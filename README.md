@@ -11,7 +11,7 @@ Installation
 
 1. Install the Gem.
 2. Create the torpedo.conf file in your HOME directory.
-3. Source novarc for your OpenStack Compute account.
+3. Source the rc file for your OpenStack account (keystone credentials, etc).
 
 ```bash
 	gem install torpedo
@@ -54,7 +54,7 @@ Installation
 	#keyname: test
 	EOF_CAT
 
-	source $PATH_TO_YOUR/novarc
+	source $PATH_TO_YOUR/openstackrc
 ```
 
 Examples
@@ -108,4 +108,4 @@ Payload
 
 License
 -------
-Copyright (c) 2011-2012 Dan Prince. See LICENSE.txt for further details.
+Copyright (c) 2011-2013 Dan Prince. See LICENSE.txt for further details.
