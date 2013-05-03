@@ -361,7 +361,7 @@ class Servers < Test::Unit::TestCase
 
     # before resizing obtain host_id
     server = @conn.servers.get(@@server.id)
-    @@host_id = server.hostId #original host ID
+    @@host_id = server.host_id #original host ID
 
     @@server.resize(@@flavor_ref_resize)
     server = @conn.servers.get(@@server.id)
@@ -397,7 +397,7 @@ class Servers < Test::Unit::TestCase
     end
 
     check_server(server, @@image_ref, @@flavor_ref)
-    assert_equal(@@host_id, server.hostId)
+    assert_equal(@@host_id, server.host_id)
 
   end if TEST_REVERT_RESIZE_SERVER
 
@@ -405,7 +405,7 @@ class Servers < Test::Unit::TestCase
 
     # before resizing obtain host_id
     server = @conn.servers.get(@@server.id)
-    @@host_id = server.hostId #original host ID
+    @@host_id = server.host_id #original host ID
 
     @@server.resize(@@flavor_ref_resize)
     server = @conn.servers.get(@@server.id)
@@ -426,7 +426,7 @@ class Servers < Test::Unit::TestCase
     end
  
     check_server(server, @@image_ref, @@flavor_ref_resize, 'VERIFY_RESIZE')
-    assert_not_equal(@@host_id, server.hostId) if TEST_HOSTID_ON_RESIZE
+    assert_not_equal(@@host_id, server.host_id) if TEST_HOSTID_ON_RESIZE
 
   end if TEST_RESIZE_SERVER
 
@@ -447,7 +447,7 @@ class Servers < Test::Unit::TestCase
       :service => @conn,
       :parent => @@server.image
     })
-    assert_equal 1, @@metadata.size
+    assert_equal 1, metadata.size
 
     metadata.each do |meta|
       assert meta.destroy
