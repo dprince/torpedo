@@ -445,9 +445,8 @@ class Servers < Test::Unit::TestCase
     #refresh the metadata
     metadata = Fog::Compute::OpenStack::Metadata.new({
       :service => @conn,
-      :parent => @@server.image
+      :parent => @@images.last
     })
-    assert_equal 1, metadata.size
 
     metadata.each do |meta|
       assert meta.destroy
@@ -456,7 +455,7 @@ class Servers < Test::Unit::TestCase
     #refresh the metadata
     metadata = Fog::Compute::OpenStack::Metadata.new({
       :service => @conn,
-      :parent => @@server.image
+      :parent => @@images.last
     })
     assert_equal 0, metadata.size
 
@@ -465,36 +464,37 @@ class Servers < Test::Unit::TestCase
   def test_052_update_one_image_metadata_item
     datum = Fog::Compute::OpenStack::Metadatum.new({
       :service => @conn,
-      :parent => @@server.image
+      :parent => @@images.last
     })
-    datum.key = 'foo1'
-    datum.value = 'bar1'
+    datum.key = 'foo0'
+    datum.value = 'bar0'
     datum.save
 
     #refresh the metadata
     metadata = Fog::Compute::OpenStack::Metadata.new({
       :service => @conn,
-      :parent => @@server.image
+      :parent => @@images.last
     })
     assert_equal 1, metadata.size
 
     datum = metadata[0]
-    assert_equal 'foo1', datum.key
-    assert_equal 'bar1', datum.value
+    assert_equal 'foo0', datum.key
+    assert_equal 'bar0', datum.value
   end if TEST_CREATE_IMAGE
 
   def test_053_update_some_image_metadata_items
 
     metadata = {}
+    metadata['foo0'] = 'barz'
     metadata['foo1'] = 'bar1'
     metadata['foo2'] = 'bar2'
-    @conn.update_metadata('images', @@server.image.id, metadata)
+    @conn.update_metadata('images', @@images.last.id, metadata)
 
-    metadata = @conn.list_metadata('images', @@server.image.id).body['metadata']
+    metadata = @conn.list_metadata('images', @@images.last.id).body['metadata']
 
     assert_equal 3, metadata.size
 
-    assert_equal 'bar0', metadata['foo0']
+    assert_equal 'barz', metadata['foo0']
     assert_equal 'bar1', metadata['foo1']
     assert_equal 'bar2', metadata['foo2']
  
@@ -507,9 +507,9 @@ class Servers < Test::Unit::TestCase
     metadata['foo2'] = 'silly'
     metadata['foo3'] = 'rabbit'
     metadata['foo4'] = 'DELETE FROM images;'
-    @conn.set_metadata('servers', @@server.image.id, metadata)
+    @conn.set_metadata('images', @@images.last.id, metadata)
 
-    metadata = @conn.list_metadata('images', @@server.image.id).body['metadata']
+    metadata = @conn.list_metadata('images', @@images.last.id).body['metadata']
 
     assert_equal 'that', metadata['foo1']
     assert_equal 'silly', metadata['foo2']
@@ -523,9 +523,9 @@ class Servers < Test::Unit::TestCase
   def test_055_clear_image_metadata
 
     metadata = {}
-    @conn.set_metadata('images', @@server.id, metadata)
+    @conn.set_metadata('images', @@images.last.id, metadata)
 
-    metadata = @conn.list_metadata('images', @@server.image.id).body['metadata']
+    metadata = @conn.list_metadata('images', @@images.last.id).body['metadata']
     assert_equal 0, metadata.size
  
   end if TEST_CREATE_IMAGE
