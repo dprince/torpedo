@@ -434,7 +434,16 @@ class Servers < Test::Unit::TestCase
 
     @@server.confirm_resize
     server = @conn.servers.get(@@server.id)
-    assert_equal('ACTIVE', server.state)
+    begin
+      timeout(60) do
+        until server.state == 'ACTIVE' do
+          server = @conn.servers.get(@@server.id)
+          sleep 1
+        end
+      end
+    rescue Timeout::Error => te
+      fail('Timeout waiting for ACTIVE state after resize confirm.')
+    end
 
     check_server(server, @@image_ref, @@flavor_ref_resize)
 
