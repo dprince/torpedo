@@ -19,7 +19,7 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/dprince/torpedo"
   gem.license = "MIT"
   gem.summary = %Q{Fire when ready. Fast Ruby integration tests for OpenStack.}
-  gem.description = %Q{Fast integration tests OpenStack.}
+  gem.description = %Q{Fast integration tests for OpenStack.}
   gem.email = "dprince@redhat.com"
   gem.authors = ["Dan Prince"]
   # dependencies defined in Gemfile

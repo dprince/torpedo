@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.authors = ["Dan Prince"]
   s.date = %q{2013-05-02}
   s.default_executable = %q{torpedo}
-  s.description = %q{Fast Ruby integration tests OpenStack.}
+  s.description = %q{Fast Ruby integration tests for OpenStack.}
   s.email = %q{dprince@redhat.com}
   s.executables = ["torpedo"]
   s.extra_rdoc_files = [
