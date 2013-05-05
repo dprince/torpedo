@@ -1,3 +1,6 @@
+* Sun May 5 2013 Dan Prince <dprince@redhat.com> - 2.0.0
+  -Switch from openstack-compute to fog.
+
 * Thu Feb 14 2013 Dan Prince <dprince@redhat.com> - 1.0.19
   -Added NETWORK_LABEL option. (defaults to 'public')
 
