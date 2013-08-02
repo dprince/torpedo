@@ -1,6 +1,12 @@
 require 'rubygems'
 require 'torpedo/config'
 
+if RUBY_VERSION =~ /^1.9.*/ then
+  gem 'test-unit'
+end
+require 'test/unit'
+require 'test/unit/ui/console/testrunner'
+
 configs = Torpedo::Config.load_configs
 
 SSH_TIMEOUT=(configs['ssh_timeout'] || 30).to_i
@@ -36,50 +42,74 @@ FLAVOR_NAME=configs['flavor_name']
 FLAVOR_REF_RESIZE=configs['flavor_ref_resize']
 FLAVOR_NAME_RESIZE=configs['flavor_name_resize']
 
+#volume opts
+volume_opts=configs['volumes'] || {}
+VOLUME_ENABLED = volume_opts.fetch('enabled', false)
+VOLUME_BUILD_TIMEOUT = (volume_opts['build_timeout'] || 60).to_i
+TEST_VOLUME_SNAPSHOTS = volume_opts.fetch('test_snapshots', false)
+CLEAN_UP_VOLUMES = volume_opts.fetch('cleanup', true)
+
 FOG_VERSION=configs['fog_version']
 
-require 'torpedo/compute/helper'
-
+TORPEDO_TEST_SUITE = Test::Unit::TestSuite.new("Torpedo")
 module Torpedo
-class Tasks < Thor
+
+  class TorpedoTests
+    def self.suite
+      return TORPEDO_TEST_SUITE
+    end
+  end
+
+  class Tasks < Thor
 
     desc "flavors", "Run flavors tests for the OSAPI."
     def flavors
       require 'torpedo/compute/flavors'
+      TORPEDO_TEST_SUITE << Torpedo::Compute::Flavors.suite
+      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
     end
 
     desc "limits", "Run limits tests for the OSAPI."
     def limits
       require 'torpedo/compute/limits'
+      TORPEDO_TEST_SUITE << Torpedo::Compute::Limits.suite
+      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
     end
 
     desc "images", "Run images tests for the OSAPI."
     def images
       require 'torpedo/compute/images'
+      TORPEDO_TEST_SUITE << Torpedo::Compute::Images.suite
+      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
     end
 
     desc "servers", "Run servers tests for the OSAPI."
     def servers
+      require 'torpedo/volume/volumes'
       require 'torpedo/compute/servers'
+      require 'torpedo/cleanup'
+      if VOLUME_ENABLED
+        TORPEDO_TEST_SUITE << Torpedo::Volume::Volumes.suite
+      end
+      TORPEDO_TEST_SUITE << Torpedo::Compute::Servers.suite
+      TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
+      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
     end
 
-    desc "cleanup", "Clean up servers and images (not necessary normally)."
+    desc "volumes", "Run volume tests for the OSAPI."
+    def volumes
+      require 'torpedo/volume/volumes'
+      require 'torpedo/cleanup'
+      TORPEDO_TEST_SUITE << Torpedo::Volume::Volumes.suite
+      TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
+      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
+    end
+
+    desc "cleanup", "Clean up servers, images, volumes, etc."
     def cleanup
-      conn = Torpedo::Compute::Helper::get_connection
-      conn.servers.each do |server|
-        server = conn.server(server[:id])
-        if server.name == 'torpedo'
-          puts 'Deleting torpedo server'
-          server.delete!
-        end
-      end
-      conn.images.each do |image|
-        image = conn.image(image[:id])
-        if image.server and conn.server(image.server['id']).name == 'torpedo'
-          puts 'Deleting torpedo image'
-          image.delete!
-        end
-      end
+      require 'torpedo/cleanup'
+      TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
+      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
     end
 
     desc "all", "Run all tests."
@@ -87,7 +117,16 @@ class Tasks < Thor
       require 'torpedo/compute/flavors'
       require 'torpedo/compute/limits'
       require 'torpedo/compute/images'
+      require 'torpedo/volume/volumes'
       require 'torpedo/compute/servers'
+      require 'torpedo/cleanup'
+      TORPEDO_TEST_SUITE << Torpedo::Compute::Flavors.suite
+      TORPEDO_TEST_SUITE << Torpedo::Compute::Limits.suite
+      TORPEDO_TEST_SUITE << Torpedo::Compute::Images.suite
+      TORPEDO_TEST_SUITE << Torpedo::Volume::Volumes.suite
+      TORPEDO_TEST_SUITE << Torpedo::Compute::Servers.suite
+      TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
+      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
     end
 
     desc "fire", "Fire away! (alias for all)"
@@ -95,5 +134,5 @@ class Tasks < Thor
        invoke :all
     end
 
-end
+  end
 end

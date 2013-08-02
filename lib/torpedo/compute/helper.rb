@@ -5,7 +5,6 @@ require 'test/unit'
 if FOG_VERSION
   gem 'fog', FOG_VERSION
 end
-#require 'openstack/compute'
 require 'fog'
 
 module Torpedo
