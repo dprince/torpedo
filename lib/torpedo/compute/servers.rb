@@ -1,4 +1,5 @@
 require 'torpedo/compute/helper'
+require 'torpedo/volume/helper'
 require 'tempfile'
 require 'net/ssh'
 
@@ -17,6 +18,9 @@ class Servers < Test::Unit::TestCase
 
   def setup
     @conn=Helper::get_connection
+    if VOLUME_ENABLED then
+      @volume_conn=Torpedo::Volume::Helper::get_connection
+    end
   end
 
   def create_server(options)
@@ -539,18 +543,47 @@ class Servers < Test::Unit::TestCase
  
   end if TEST_CREATE_IMAGE
 
-  def test_999_teardown
-    if CLEAN_UP_SERVERS
-      @@servers.each do |server|
-        assert_equal(true, server.destroy)
+  def test_060_attach_volume
+    volume = Torpedo::Volume::Volumes.volume
+    assert(@@server.attach_volume(volume.id, "/dev/vdb"))
+
+    begin
+      timeout(VOLUME_BUILD_TIMEOUT) do
+        until volume.status == 'in-use' do
+          if volume.status == "error" then
+            fail('ERROR status detected when attaching volume!')
+          end
+          volume = @volume_conn.volumes.get(volume.id)
+          sleep 1
+        end
       end
+    rescue Timeout::Error => te
+      fail('Timeout attaching volume.')
     end
-    if CLEAN_UP_IMAGES
-      @@images.each do |image|
-        assert_equal(true, image.destroy)
+
+  end if VOLUME_ENABLED
+
+  def test_061_detach_volume
+
+    volume = Torpedo::Volume::Volumes.volume
+    assert(@@server.detach_volume(volume.id))
+
+    volume = @volume_conn.volumes.get(volume.id)
+    begin
+      timeout(VOLUME_BUILD_TIMEOUT) do
+        until volume.status == 'available' do
+          if volume.status == "error" then
+            fail('ERROR status detected when detaching volume!')
+          end
+          volume = @volume_conn.volumes.get(volume.id)
+          sleep 1
+        end
       end
+    rescue Timeout::Error => te
+      fail('Timeout detaching volume.')
     end
-  end
+
+  end if VOLUME_ENABLED
 
 end
 end
