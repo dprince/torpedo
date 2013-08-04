@@ -27,7 +27,7 @@ module Torpedo
           end
         end
       end
-      if CLEAN_UP_KEYPAIRS
+      if KEYPAIR_ENABLED and CLEAN_UP_KEYPAIRS then
         compute_conn.key_pairs.each do |key_pair|
           key_pair = compute_conn.key_pairs.get(key_pair.name)
           if key_pair.name == 'torpedo'
@@ -36,7 +36,7 @@ module Torpedo
           end
         end
       end
-      if CLEAN_UP_VOLUMES
+      if VOLUME_ENABLED and CLEAN_UP_VOLUMES then
         volume_conn = Torpedo::Volume::Helper::get_connection
         volume_conn.volumes.each do |volume|
           volume = volume_conn.volumes.get(volume.id)
