@@ -27,8 +27,8 @@ module Torpedo
         public_key = IO.read(SSH_PUBLIC_KEY)
         options = {:public_key => public_key, :name => @@key_pair_name}
         key_pair = create_key_pair(options)
-        assert_equal(@@key_pair_name, key_pair.name) 
-        assert_equal(public_key, key_pair.public_key) 
+        assert_equal(@@key_pair_name, key_pair.name)
+        assert_equal(public_key, key_pair.public_key)
       end
 
     end

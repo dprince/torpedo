@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dan Prince"]
-  s.date = "2013-08-02"
+  s.date = "2013-08-04"
   s.description = "Fast integration tests for OpenStack."
   s.email = "dprince@redhat.com"
   s.executables = ["torpedo"]
@@ -32,6 +32,7 @@ Gem::Specification.new do |s|
     "lib/torpedo/compute/flavors.rb",
     "lib/torpedo/compute/helper.rb",
     "lib/torpedo/compute/images.rb",
+    "lib/torpedo/compute/keypairs.rb",
     "lib/torpedo/compute/limits.rb",
     "lib/torpedo/compute/servers.rb",
     "lib/torpedo/config.rb",
