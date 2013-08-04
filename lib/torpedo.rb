@@ -30,8 +30,8 @@ TEST_IP_TYPE=configs['test_ip_type'] || 4
 TEST_LIMITS=configs.fetch('test_limits', true)
 CLEAN_UP_SERVERS=configs.fetch('clean_up_servers', true)
 CLEAN_UP_IMAGES=configs.fetch('clean_up_images', true)
-KEYPAIR=configs['keypair']
-KEYNAME=configs['keyname']
+CLEAN_UP_KEYPAIRS=configs.fetch('clean_up_keypairs', true)
+KEYPAIR_ENABLED = configs.fetch('keypairs', false)
 
 IMAGE_REF=configs['image_ref']
 IMAGE_NAME=configs['image_name']
@@ -66,34 +66,47 @@ module Torpedo
     def flavors
       require 'torpedo/compute/flavors'
       TORPEDO_TEST_SUITE << Torpedo::Compute::Flavors.suite
-      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
     end
 
     desc "limits", "Run limits tests for the OSAPI."
     def limits
       require 'torpedo/compute/limits'
       TORPEDO_TEST_SUITE << Torpedo::Compute::Limits.suite
-      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
     end
 
     desc "images", "Run images tests for the OSAPI."
     def images
       require 'torpedo/compute/images'
       TORPEDO_TEST_SUITE << Torpedo::Compute::Images.suite
-      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
     end
 
     desc "servers", "Run servers tests for the OSAPI."
     def servers
       require 'torpedo/volume/volumes'
+      require 'torpedo/compute/keypairs'
       require 'torpedo/compute/servers'
       require 'torpedo/cleanup'
       if VOLUME_ENABLED
         TORPEDO_TEST_SUITE << Torpedo::Volume::Volumes.suite
       end
+      if KEYPAIR_ENABLED
+        TORPEDO_TEST_SUITE << Torpedo::Compute::Keypairs.suite
+      end
       TORPEDO_TEST_SUITE << Torpedo::Compute::Servers.suite
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
-      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+    end
+
+    desc "keypairs", "Run keypair tests for the OSAPI."
+    def keypairs
+      require 'torpedo/compute/keypairs'
+      require 'torpedo/cleanup'
+      TORPEDO_TEST_SUITE << Torpedo::Compute::Keypairs.suite
+      TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
     end
 
     desc "volumes", "Run volume tests for the OSAPI."
@@ -102,31 +115,37 @@ module Torpedo
       require 'torpedo/cleanup'
       TORPEDO_TEST_SUITE << Torpedo::Volume::Volumes.suite
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
-      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
     end
 
     desc "cleanup", "Clean up servers, images, volumes, etc."
     def cleanup
       require 'torpedo/cleanup'
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
-      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
     end
 
     desc "all", "Run all tests."
     def all
+      require 'torpedo/compute/keypairs'
       require 'torpedo/compute/flavors'
       require 'torpedo/compute/limits'
       require 'torpedo/compute/images'
       require 'torpedo/volume/volumes'
       require 'torpedo/compute/servers'
       require 'torpedo/cleanup'
+      if KEYPAIR_ENABLED
+        TORPEDO_TEST_SUITE << Torpedo::Compute::Keypairs.suite
+      end
       TORPEDO_TEST_SUITE << Torpedo::Compute::Flavors.suite
       TORPEDO_TEST_SUITE << Torpedo::Compute::Limits.suite
       TORPEDO_TEST_SUITE << Torpedo::Compute::Images.suite
-      TORPEDO_TEST_SUITE << Torpedo::Volume::Volumes.suite
+      if VOLUME_ENABLED
+        TORPEDO_TEST_SUITE << Torpedo::Volume::Volumes.suite
+      end
       TORPEDO_TEST_SUITE << Torpedo::Compute::Servers.suite
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
-      Test::Unit::UI::Console::TestRunner.run(TorpedoTests)
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
     end
 
     desc "fire", "Fire away! (alias for all)"

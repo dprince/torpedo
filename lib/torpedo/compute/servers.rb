@@ -1,4 +1,5 @@
 require 'torpedo/compute/helper'
+require 'torpedo/compute/keypairs'
 require 'torpedo/volume/helper'
 require 'tempfile'
 require 'net/ssh'
@@ -40,11 +41,11 @@ class Servers < Test::Unit::TestCase
   end
 
   def get_personalities
-    if TEST_ADMIN_PASSWORD then
-      [{'contents' => 'yo', 'path' => '/tmp/foo/bar'}]
+    if TEST_ADMIN_PASSWORD or Keypairs.key_pair then
+      [{'contents' => 'yo', 'path' => '/tmp/foo.bar'}]
     else
-      # NOTE: if admin_pass is disabled we inject the public key so we
-      # can still login. This would only matter if KEYPAIR was disabled as well.
+      # NOTE: if admin_pass and keypairs disabled we inject the public key so we
+      # can still login.
       [{'contents' => IO.read(SSH_PUBLIC_KEY), 'path' => '/root/.ssh/authorized_keys'}]
     end
   end
@@ -56,9 +57,6 @@ class Servers < Test::Unit::TestCase
       ssh_opts.store(:password, admin_pass)
     else
       ssh_identity=SSH_PRIVATE_KEY
-      if KEYPAIR and not KEYPAIR.empty? then
-        ssh_identity=KEYPAIR
-      end
       ssh_opts.store(:keys, ssh_identity)
     end
 
@@ -141,8 +139,8 @@ class Servers < Test::Unit::TestCase
     address = find_ip(server)
     ping_test(address) if TEST_PING
     if TEST_SSH
-      if TEST_ADMIN_PASSWORD
-        ssh_test(address, "cat /tmp/foo/bar", "yo")
+      if TEST_ADMIN_PASSWORD or Keypairs.key_pair then
+        ssh_test(address, "cat /tmp/foo.bar", "yo")
       else
         ssh_test(address)
       end
@@ -174,8 +172,8 @@ class Servers < Test::Unit::TestCase
 
     metadata={ "key1" => "value1", "key2" => "value2" }
     options = {:name => @@hostname, :image_ref => @@image_ref, :flavor_ref => @@flavor_ref, :personality => get_personalities, :metadata => metadata}
-    if KEYNAME and not KEYNAME.empty? then
-      options['key_name'] = KEYNAME
+    if Keypairs.key_pair then
+      options['key_name'] = Keypairs.key_pair.name
     end
     server = create_server(options)
     assert_not_nil(@@admin_pass)

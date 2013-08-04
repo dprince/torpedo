@@ -27,6 +27,15 @@ module Torpedo
           end
         end
       end
+      if CLEAN_UP_KEYPAIRS
+        compute_conn.key_pairs.each do |key_pair|
+          key_pair = compute_conn.key_pairs.get(key_pair.name)
+          if key_pair.name == 'torpedo'
+            #puts 'Deleting torpedo key_pair'
+            assert(key_pair.destroy)
+          end
+        end
+      end
       if CLEAN_UP_VOLUMES
         volume_conn = Torpedo::Volume::Helper::get_connection
         volume_conn.volumes.each do |volume|
