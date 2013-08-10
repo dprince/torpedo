@@ -1,5 +1,6 @@
 * Fri Aug 2 2013 Dan Prince <dprince@redhat.com> - 2.1.0
-  -Add support for volume smoke testing.
+  -Add support for volumes.
+  -Add support for keypairs.
 
 * Sun May 5 2013 Dan Prince <dprince@redhat.com> - 2.0.0
   -Switch from openstack-compute to fog.
