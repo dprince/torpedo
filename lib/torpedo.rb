@@ -15,6 +15,7 @@ PING_TIMEOUT=(configs['ping_timeout'] || 60).to_i
 TEST_PING=configs.fetch('test_ping', true)
 SERVER_BUILD_TIMEOUT=(configs['server_build_timeout'] || 60).to_i
 NETWORK_LABEL=(configs['network_label'] || 'public')
+NETWORK_NAMESPACE=configs['network_namespace']
 SLEEP_AFTER_IMAGE_CREATE=(configs['sleep_after_image_create'] || 0).to_i
 SSH_PRIVATE_KEY=configs['ssh_private_key'] || ENV['HOME'] + "/.ssh/id_rsa"
 SSH_PUBLIC_KEY=configs['ssh_public_key'] || ENV['HOME'] + "/.ssh/id_rsa.pub"
@@ -146,6 +147,20 @@ module Torpedo
       TORPEDO_TEST_SUITE << Torpedo::Compute::Servers.suite
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
       exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+    end
+
+    desc "ssh", "Test ssh connectivity on a server."
+    method_options :ip_address => :string
+    method_options :test_command => :string
+    method_options :test_output => :string
+    method_options :admin_password => :string
+    def ssh(options=(options or {}))
+      require 'torpedo/net_util'
+      if Torpedo::NetUtil.ssh_test(options[:ip_address], nil, options[:test_command], options[:test_output], options[:admin_password]) then
+        exit 0
+      else
+        exit 1
+      end
     end
 
     desc "fire", "Fire away! (alias for all)"

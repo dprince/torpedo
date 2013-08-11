@@ -1,4 +1,6 @@
-* Fri Aug 2 2013 Dan Prince <dprince@redhat.com> - 2.1.0
+* Fri Aug 10 2013 Dan Prince <dprince@redhat.com> - 2.1.0
+  -Add 'network_namespace' option which can be used when testing
+   Neutron namespaces.
   -Add support for volumes.
   -Add support for keypairs.
 

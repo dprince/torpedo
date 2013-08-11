@@ -1,8 +1,8 @@
 require 'torpedo/compute/helper'
 require 'torpedo/compute/keypairs'
 require 'torpedo/volume/helper'
+require 'torpedo/net_util'
 require 'tempfile'
-require 'net/ssh'
 
 module Torpedo
   module Compute
@@ -50,53 +50,6 @@ module Torpedo
         end
       end
 
-      def ssh_test(ip_addr, test_cmd="hostname", test_output=@@hostname, admin_pass=@@admin_pass)
-
-        ssh_opts = {:paranoid => false}
-        if TEST_ADMIN_PASSWORD then
-          ssh_opts.store(:password, admin_pass)
-        else
-          ssh_identity=SSH_PRIVATE_KEY
-          ssh_opts.store(:keys, ssh_identity)
-        end
-
-        begin
-          Timeout::timeout(SSH_TIMEOUT) do
-            while(1) do
-              begin
-                Net::SSH.start(ip_addr, 'root', ssh_opts) do |ssh|
-                    return ssh.exec!(test_cmd) == test_output
-                end
-              rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH, Errno::ECONNRESET, Net::SSH::Exception
-                next
-              end
-            end
-          end
-        rescue Timeout::Error => te
-          fail("Timeout trying to ssh to server: #{ip_addr}")
-        end
-
-        return false
-
-      end
-
-      def ping_test(ip_addr)
-        begin
-          ping = TEST_IP_TYPE == 6 ? 'ping6' : 'ping'
-          ping_command = "#{ping} -c 1 #{ip_addr} > /dev/null 2>&1"
-          Timeout::timeout(PING_TIMEOUT) do
-            while(1) do
-              return true if system(ping_command)
-            end
-          end
-        rescue Timeout::Error => te
-          fail("Timeout pinging server: #{ping_command}")
-        end
-
-        return false
-
-      end
-
       def find_ip(server)
         # lookup the first public IP address and use that for verification
         if server.addresses[NETWORK_LABEL].nil?
@@ -137,12 +90,12 @@ module Torpedo
         assert_not_nil(server.host_id)
 
         address = find_ip(server)
-        ping_test(address) if TEST_PING
+        Torpedo::NetUtil.ping_test(address, NETWORK_NAMESPACE) if TEST_PING
         if TEST_SSH
           if TEST_ADMIN_PASSWORD or Keypairs.key_pair then
-            ssh_test(address, "cat /tmp/foo.bar", "yo")
+            Torpedo::NetUtil.ssh_test(address, NETWORK_NAMESPACE, "cat /tmp/foo.bar", "yo", @@admin_pass)
           else
-            ssh_test(address)
+            Torpedo::NetUtil.ssh_test(address, NETWORK_NAMESPACE, "hostname", @@hostname, @@admin_pass)
           end
         end
 
