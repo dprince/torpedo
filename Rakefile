@@ -23,10 +23,10 @@ Jeweler::Tasks.new do |gem|
   gem.email = "dprince@redhat.com"
   gem.authors = ["Dan Prince"]
   # dependencies defined in Gemfile
-  gem.add_dependency 'thor', '~>0.14.6'
+  gem.add_dependency 'thor'
   gem.add_dependency 'test-unit'
   gem.add_dependency 'fog'
-  gem.add_dependency('net-ssh', '~>2.2.1')
+  gem.add_dependency 'net-ssh'
 end
 Jeweler::RubygemsDotOrgTasks.new
 
