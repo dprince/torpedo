@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Dan Prince"]
-  s.date = "2013-08-11"
+  s.date = "2013-08-23"
   s.description = "Fast integration tests for OpenStack."
   s.email = "dprince@redhat.com"
   s.executables = ["torpedo"]
@@ -55,12 +55,14 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_runtime_dependency(%q<thor>, ["~> 0.14.6"])
+      s.add_runtime_dependency(%q<test-unit>, [">= 0"])
       s.add_runtime_dependency(%q<fog>, [">= 0"])
       s.add_runtime_dependency(%q<net-ssh>, ["~> 2.2.1"])
     else
       s.add_dependency(%q<bundler>, ["~> 1.0.0"])
       s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
       s.add_dependency(%q<thor>, ["~> 0.14.6"])
+      s.add_dependency(%q<test-unit>, [">= 0"])
       s.add_dependency(%q<fog>, [">= 0"])
       s.add_dependency(%q<net-ssh>, ["~> 2.2.1"])
     end
@@ -68,6 +70,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<bundler>, ["~> 1.0.0"])
     s.add_dependency(%q<jeweler>, ["~> 1.6.4"])
     s.add_dependency(%q<thor>, ["~> 0.14.6"])
+    s.add_dependency(%q<test-unit>, [">= 0"])
     s.add_dependency(%q<fog>, [">= 0"])
     s.add_dependency(%q<net-ssh>, ["~> 2.2.1"])
   end
