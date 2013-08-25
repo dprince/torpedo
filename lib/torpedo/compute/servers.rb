@@ -44,8 +44,8 @@ module Torpedo
         if TEST_ADMIN_PASSWORD or Keypairs.key_pair then
           [{'contents' => 'yo', 'path' => '/tmp/foo.bar'}]
         else
-          # NOTE: if admin_pass and keypairs disabled we inject the public key so we
-          # can still login.
+          # NOTE: if admin_pass and keypairs are disabled we inject the public
+          # key so we can still login.
           [{'contents' => IO.read(SSH_PUBLIC_KEY), 'path' => '/root/.ssh/authorized_keys'}]
         end
       end
@@ -273,7 +273,8 @@ module Torpedo
         @conn.rebuild_server(@@server.id, @@image_ref, "torpedo", admin_pass=@@admin_pass, metadata=metadata, personality=get_personalities)
 
         server = @conn.servers.get(@@server.id)
-        sleep 15 # sleep a couple seconds until rebuild starts
+        assert_equal('REBUILD', server.state)
+
         check_server(server, @@image_ref, @@flavor_ref)
 
       end if TEST_REBUILD_SERVER
