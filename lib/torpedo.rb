@@ -84,6 +84,13 @@ module Torpedo
       exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
     end
 
+    desc "heat", "Run heat test"
+    def heat
+      require 'torpedo/compute/heat'
+      TORPEDO_TEST_SUITE << Torpedo::Compute::Heat.suite
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+    end
+
     desc "servers", "Run servers tests for the OSAPI."
     def servers
       require 'torpedo/volume/volumes'
