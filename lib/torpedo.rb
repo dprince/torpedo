@@ -50,6 +50,11 @@ VOLUME_BUILD_TIMEOUT = (volume_opts['build_timeout'] || 60).to_i
 TEST_VOLUME_SNAPSHOTS = volume_opts.fetch('test_snapshots', false)
 CLEAN_UP_VOLUMES = volume_opts.fetch('cleanup', true)
 
+#metering opts
+metering_opts=configs['metering'] || {}
+METERING_ENABLED = metering_opts.fetch('enabled', false)
+METERING_SAMPLE_TIMEOUT = (metering_opts['sample_timeout'] || 360).to_i
+
 FOG_VERSION=configs['fog_version']
 
 TORPEDO_TEST_SUITE = Test::Unit::TestSuite.new("Torpedo")
@@ -89,6 +94,7 @@ module Torpedo
       require 'torpedo/volume/volumes'
       require 'torpedo/compute/keypairs'
       require 'torpedo/compute/servers'
+      require 'torpedo/metering/meters'
       require 'torpedo/cleanup'
       if VOLUME_ENABLED
         TORPEDO_TEST_SUITE << Torpedo::Volume::Volumes.suite
@@ -97,6 +103,9 @@ module Torpedo
         TORPEDO_TEST_SUITE << Torpedo::Compute::Keypairs.suite
       end
       TORPEDO_TEST_SUITE << Torpedo::Compute::Servers.suite
+      if METERING_ENABLED
+        TORPEDO_TEST_SUITE << Torpedo::Metering::Meters.suite
+      end
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
       exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
     end
@@ -134,6 +143,7 @@ module Torpedo
       require 'torpedo/compute/images'
       require 'torpedo/volume/volumes'
       require 'torpedo/compute/servers'
+      require 'torpedo/metering/meters'
       require 'torpedo/cleanup'
       if KEYPAIR_ENABLED
         TORPEDO_TEST_SUITE << Torpedo::Compute::Keypairs.suite
@@ -145,6 +155,9 @@ module Torpedo
         TORPEDO_TEST_SUITE << Torpedo::Volume::Volumes.suite
       end
       TORPEDO_TEST_SUITE << Torpedo::Compute::Servers.suite
+      if METERING_ENABLED
+        TORPEDO_TEST_SUITE << Torpedo::Metering::Meters.suite
+      end
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
       exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
     end

@@ -17,6 +17,11 @@ module Torpedo
       @@hostname = "torpedo"
       @@host_id = nil
 
+      # public access to the server ref
+      def self.server
+        @@server
+      end
+
       def setup
         @conn=Helper::get_connection
         if VOLUME_ENABLED then

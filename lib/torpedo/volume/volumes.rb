@@ -21,7 +21,6 @@ module Torpedo
 
       def setup
         @conn=Helper::get_connection
-        @compute_conn=Torpedo::Compute::Helper::get_connection
       end
 
       def create_volume(options)
