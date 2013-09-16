@@ -46,7 +46,7 @@ FLAVOR_NAME_RESIZE=configs['flavor_name_resize']
 #volume opts
 volume_opts=configs['volumes'] || {}
 VOLUME_ENABLED = volume_opts.fetch('enabled', false)
-VOLUME_BUILD_TIMEOUT = (volume_opts['build_timeout'] || 60).to_i
+VOLUME_BUILD_TIMEOUT = (volume_opts['build_timeout'] || 120).to_i
 TEST_VOLUME_SNAPSHOTS = volume_opts.fetch('test_snapshots', false)
 CLEAN_UP_VOLUMES = volume_opts.fetch('cleanup', true)
 
