@@ -8,6 +8,28 @@ module Torpedo
   class Cleanup < Test::Unit::TestCase
 
     def test_999_cleanup
+      if ORCHESTRATION_ENABLED and CLEAN_UP_STACKS then
+        orchestration_conn = Torpedo::Orchestration::Helper::get_connection
+        orchestration_conn.stacks.each do |stack|
+          stack = orchestration_conn.stacks.get(stack.id)
+          if stack.stack_name == 'torpedo'
+            #puts 'Deleting torpedo stack'
+            assert(stack.destroy)
+            # We wait for the stack to be deleted here to avoid pulling
+            # the rug on heat (and causing a potential log ERROR)
+            begin
+              timeout(STACK_CREATE_TIMEOUT) do
+                until orchestration_conn.stacks.get(stack.id).nil? do
+                  sleep(1)
+                end
+              end
+            rescue Timeout::Error => te
+              fail('Timeout deleting stack.')
+            end
+
+          end
+        end
+      end
       compute_conn = Torpedo::Compute::Helper::get_connection
       if CLEAN_UP_SERVERS
         compute_conn.servers.each do |server|

@@ -22,6 +22,16 @@ module Torpedo
         @@server
       end
 
+      # public access to the image ref
+      def self.image_ref
+        @@image_ref
+      end
+
+      # public access to the flavor ref
+      def self.flavor_ref
+        @@flavor_ref
+      end
+
       def setup
         @conn=Helper::get_connection
         if VOLUME_ENABLED then
@@ -30,9 +40,21 @@ module Torpedo
       end
 
       def create_server(options)
-        @@server = @conn.servers.create(options)
-        @@servers << @@server
-        @@admin_pass = @@server.password #original admin_pass
+        if ORCHESTRATION_ENABLED then
+          #if heat is enabled we re-use the server from the stack
+          @conn.servers.each do |server|
+            if server.name == 'torpedo'
+              @@server = @conn.servers.get(server.id)
+            end
+            #NOTE: When using Heat we use keypairs... so just stub this out
+            @@admin_pass = 'Not Available'
+          end
+        else
+          @@server = @conn.servers.create(options)
+          @@servers << @@server
+          @@admin_pass = @@server.password #original admin_pass
+          assert_not_nil(@@admin_pass)
+        end
         @@server
       end
 
@@ -134,7 +156,6 @@ module Torpedo
           options['key_name'] = Keypairs.key_pair.name
         end
         server = create_server(options)
-        assert_not_nil(@@admin_pass)
 
         #boot a server and check it
         check_server(server, @@image_ref, @@flavor_ref)

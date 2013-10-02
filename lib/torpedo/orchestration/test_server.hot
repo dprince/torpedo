@@ -1,0 +1,31 @@
+heat_template_version: 2013-05-23
+
+description: Deploy a single compute instance.
+
+parameters:
+  server_name:
+    type: string
+    description: Name of server to create.
+  key_name:
+    type: string
+    description: Name of key-pair to be used for compute instance
+  image:
+    type: string
+    description: Image to be used for compute instance
+  flavor:
+    type: string
+    description: Type of instance (flavor) to be used
+
+resources:
+  my_instance:
+    type: OS::Nova::Server
+    properties:
+      name:
+        Ref: server_name
+      flavor:
+        Ref: flavor
+      image:
+        Ref: image
+      key_name:
+        Ref: key_name
+      metadata: {'key1': 'value1', 'key2': 'value2'}

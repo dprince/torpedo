@@ -55,6 +55,12 @@ metering_opts=configs['metering'] || {}
 METERING_ENABLED = metering_opts.fetch('enabled', false)
 METERING_SAMPLE_TIMEOUT = (metering_opts['sample_timeout'] || 360).to_i
 
+#orchestration opts
+orchestration_opts=configs['orchestration'] || {}
+ORCHESTRATION_ENABLED = orchestration_opts.fetch('enabled', false)
+STACK_CREATE_TIMEOUT = (orchestration_opts['stack_create_timeout'] || 120).to_i
+CLEAN_UP_STACKS = orchestration_opts.fetch('cleanup', true)
+
 FOG_VERSION=configs['fog_version']
 
 TORPEDO_TEST_SUITE = Test::Unit::TestSuite.new("Torpedo")
@@ -128,6 +134,19 @@ module Torpedo
       exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
     end
 
+    desc "orchestration", "Run orchestration tests for the OSAPI."
+    def orchestration
+      require 'torpedo/compute/keypairs'
+      require 'torpedo/orchestration/stacks'
+      require 'torpedo/cleanup'
+      if KEYPAIR_ENABLED
+        TORPEDO_TEST_SUITE << Torpedo::Compute::Keypairs.suite
+      end
+      TORPEDO_TEST_SUITE << Torpedo::Orchestration::Stacks.suite
+      TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+    end
+
     desc "cleanup", "Clean up servers, images, volumes, etc."
     def cleanup
       require 'torpedo/cleanup'
@@ -138,6 +157,7 @@ module Torpedo
     desc "all", "Run all tests."
     def all
       require 'torpedo/compute/keypairs'
+      require 'torpedo/orchestration/stacks'
       require 'torpedo/compute/flavors'
       require 'torpedo/compute/limits'
       require 'torpedo/compute/images'
@@ -147,6 +167,9 @@ module Torpedo
       require 'torpedo/cleanup'
       if KEYPAIR_ENABLED
         TORPEDO_TEST_SUITE << Torpedo::Compute::Keypairs.suite
+      end
+      if ORCHESTRATION_ENABLED
+        TORPEDO_TEST_SUITE << Torpedo::Orchestration::Stacks.suite
       end
       TORPEDO_TEST_SUITE << Torpedo::Compute::Flavors.suite
       TORPEDO_TEST_SUITE << Torpedo::Compute::Limits.suite

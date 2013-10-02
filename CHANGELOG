@@ -1,12 +1,11 @@
-* Mon Sep 3 2013 Dan Prince <dprince@redhat.com> - 2.1.0
+* Wed Oct 2 2013 Dan Prince <dprince@redhat.com> - 2.0.0
+  -Switch from openstack-compute to fog.
   -Add 'network_namespace' option which can be used when testing
    Neutron namespaces.
   -Add support for volumes.
   -Add support for keypairs.
   -Add support for metering.
-
-* Sun May 5 2013 Dan Prince <dprince@redhat.com> - 2.0.0
-  -Switch from openstack-compute to fog.
+  -Add support for orchestration.
 
 * Thu Feb 14 2013 Dan Prince <dprince@redhat.com> - 1.0.19
   -Added NETWORK_LABEL option. (defaults to 'public')
