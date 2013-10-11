@@ -1,4 +1,4 @@
-* Wed Oct 2 2013 Dan Prince <dprince@redhat.com> - 2.0.0
+* Fri Oct 10 2013 Dan Prince <dprince@redhat.com> - 2.1.0
   -Switch from openstack-compute to fog.
   -Add 'network_namespace' option which can be used when testing
    Neutron namespaces.
