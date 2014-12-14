@@ -52,6 +52,9 @@ Installation
 	# KEYPAIRS (used to verify images that support keypairs)
 	#keypair: test.pem
 	#keyname: test
+
+	# OUTPUT_LEVEL ( used for test verbosity control, default is NORMAL)
+	# output_level: verbose
 	EOF_CAT
 
 	source $PATH_TO_YOUR/openstackrc
