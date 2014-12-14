@@ -17,55 +17,60 @@ Installation
 	gem install torpedo
 
     cat > ~/.torpedo.conf <<"EOF_CAT"
-	# YAML config file for torpedo
+  # YAML config file for torpedo
 
-	# timeouts
-	server_build_timeout: 420
-	ping_timeout: 60
-	ssh_timeout: 60
+  # timeouts
+  server_build_timeout: 420
+  ping_timeout: 60
+  ssh_timeout: 60
 
-	# SERVER test settings
-	test_create_image: false
-	test_rebuild_server: false
-	test_resize_server: false
-	test_revert_resize_server: false
-	test_admin_password: false
-	test_soft_reboot_server: false
-	test_hard_reboot_server: false
+  # SERVER test settings
+  test_create_image: false
+  test_rebuild_server: false
+  test_resize_server: false
+  test_revert_resize_server: false
+  test_admin_password: false
+  test_soft_reboot_server: false
+  test_hard_reboot_server: false
 
-	# IMAGES (Set one of the following)
-	image_name: Ubuntu Natty (11.04)
-	#image_ref:
+  # IMAGES (Set one of the following)
+  image_name: Ubuntu Natty (11.04)
+  #image_ref:
 
-	# FLAVORS (Set one of the following)
-	#flavor_name: 
-	flavor_ref: 4
+  # FLAVORS (Set one of the following)
+  #flavor_name: 
+  flavor_ref: 4
 
-	# SSH/PING test options
-	#test_ssh: true
-	#test_ping: true
+  # SSH/PING test options
+  #test_ssh: true
+  #test_ping: true
 
-	# SSH KEYS (used to verify installations which support personalities)
-	#ssh_private_key: <your home dir>/.ssh/id_rsa
-	#ssh_public_key: <your home dir>/.ssh/id_rsa.pub
+  # SSH KEYS (used to verify installations which support personalities)
+  #ssh_private_key: <your home dir>/.ssh/id_rsa
+  #ssh_public_key: <your home dir>/.ssh/id_rsa.pub
 
-	# KEYPAIRS (used to verify images that support keypairs)
-	#keypair: test.pem
-	#keyname: test
+  # KEYPAIRS (used to verify images that support keypairs)
+  #keypair: test.pem
+  #keyname: test
 
-	# COMPUTE OPTIONS
-	#availability_zone: azone
+  # COMPUTE OPTIONS
+  #availability_zone: azone
 
-	# NETWORK OPTIONS
-	#network_label: label
-	#ip_adress_order: 1 # Use if multiple ip adresses assigned within one network
-	#security_groups: ['default', 'ssh'] 
+  # NETWORK OPTIONS
+  #network_label: label
+  #ip_adress_order: 1 # Use if multiple ip adresses assigned within one network
+  #security_groups: ['default', 'ssh'] 
 
-	# OUTPUT_LEVEL ( used for test verbosity control, default is NORMAL)
-	# output_level: verbose
-	EOF_CAT
+  # VOLUMES OPTIONS
+  #volumes:
+  #  enabled: true
+  #  device: /dev/vdc
 
-	source $PATH_TO_YOUR/openstackrc
+  # OUTPUT_LEVEL ( used for test verbosity control, default is NORMAL)
+  # output_level: verbose
+EOF_CAT
+
+source $PATH_TO_YOUR/openstackrc
 ```
 
 Examples

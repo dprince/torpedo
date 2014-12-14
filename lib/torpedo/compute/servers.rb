@@ -529,7 +529,7 @@ module Torpedo
 
       def test_060_attach_volume
         volume = Torpedo::Volume::Volumes.volume
-        assert(@@server.attach_volume(volume.id, "/dev/vdb"))
+        assert(@@server.attach_volume(volume.id, VOLUME_DEVICE))
 
         begin
           timeout(VOLUME_BUILD_TIMEOUT) do
