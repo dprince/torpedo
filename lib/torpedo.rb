@@ -61,6 +61,11 @@ ORCHESTRATION_ENABLED = orchestration_opts.fetch('enabled', false)
 STACK_CREATE_TIMEOUT = (orchestration_opts['stack_create_timeout'] || 120).to_i
 CLEAN_UP_STACKS = orchestration_opts.fetch('cleanup', true)
 
+# compute opts
+
+AVAILABILITY_ZONE = configs['availability_zone']
+SECURITY_GROUPS = configs['security_groups']
+
 # output verbosity
 include Test::Unit::UI::Console::OutputLevel
 OUTPUT_LEVEL = Kernel.const_get(configs['output_level'].upcase) || NORMAL

@@ -53,6 +53,10 @@ Installation
 	#keypair: test.pem
 	#keyname: test
 
+	# COMPUTE OPTIONS
+	#availability_zone: azone
+	#security_groups: ['default', 'ssh'] 
+
 	# OUTPUT_LEVEL ( used for test verbosity control, default is NORMAL)
 	# output_level: verbose
 	EOF_CAT

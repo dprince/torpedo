@@ -152,6 +152,12 @@ module Torpedo
 
         metadata={ "key1" => "value1", "key2" => "value2" }
         options = {:name => @@hostname, :image_ref => @@image_ref, :flavor_ref => @@flavor_ref, :personality => get_personalities, :metadata => metadata}
+        if AVAILABILITY_ZONE
+          options.merge!({:availability_zone => AVAILABILITY_ZONE})
+        end
+        if SECURITY_GROUPS
+          options.merge!({:security_groups => SECURITY_GROUPS})
+        end
         if Keypairs.key_pair then
           options['key_name'] = Keypairs.key_pair.name
         end
