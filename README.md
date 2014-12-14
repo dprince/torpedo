@@ -55,6 +55,10 @@ Installation
 
 	# COMPUTE OPTIONS
 	#availability_zone: azone
+
+	# NETWORK OPTIONS
+	#network_label: label
+	#ip_adress_order: 1 # Use if multiple ip adresses assigned within one network
 	#security_groups: ['default', 'ssh'] 
 
 	# OUTPUT_LEVEL ( used for test verbosity control, default is NORMAL)

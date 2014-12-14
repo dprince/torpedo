@@ -16,6 +16,7 @@ TEST_PING=configs.fetch('test_ping', true)
 SERVER_BUILD_TIMEOUT=(configs['server_build_timeout'] || 60).to_i
 NETWORK_LABEL=(configs['network_label'] || 'public')
 NETWORK_NAMESPACE=configs['network_namespace']
+IP_ADDRESS_ORDER=(configs['ip_address_order'] || 0).to_i
 SLEEP_AFTER_IMAGE_CREATE=(configs['sleep_after_image_create'] || 0).to_i
 SSH_PRIVATE_KEY=configs['ssh_private_key'] || ENV['HOME'] + "/.ssh/id_rsa"
 SSH_PUBLIC_KEY=configs['ssh_public_key'] || ENV['HOME'] + "/.ssh/id_rsa.pub"

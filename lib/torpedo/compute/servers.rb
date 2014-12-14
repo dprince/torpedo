@@ -83,7 +83,7 @@ module Torpedo
           fail("No address found for network label #{NETWORK_LABEL}. Addresses: #{server.addresses}")
         end
         addresses = server.addresses[NETWORK_LABEL].select {|a| a['version'] == TEST_IP_TYPE}
-        address = addresses[0]['addr']
+        address = addresses[IP_ADDRESS_ORDER]['addr']
         if address.nil? or address.empty? then
           fail("No address found for network label #{NETWORK_LABEL}. Addresses: #{server.addresses}")
         end
