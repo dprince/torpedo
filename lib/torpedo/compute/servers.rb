@@ -83,7 +83,7 @@ module Torpedo
           fail("No address found for network label #{NETWORK_LABEL}. Addresses: #{server.addresses}")
         end
         addresses = server.addresses[NETWORK_LABEL].select {|a| a['version'] == TEST_IP_TYPE}
-        address = addresses[0]['addr']
+        address = addresses[IP_ADDRESS_ORDER]['addr']
         if address.nil? or address.empty? then
           fail("No address found for network label #{NETWORK_LABEL}. Addresses: #{server.addresses}")
         end
@@ -152,6 +152,12 @@ module Torpedo
 
         metadata={ "key1" => "value1", "key2" => "value2" }
         options = {:name => @@hostname, :image_ref => @@image_ref, :flavor_ref => @@flavor_ref, :personality => get_personalities, :metadata => metadata}
+        if AVAILABILITY_ZONE
+          options.merge!({:availability_zone => AVAILABILITY_ZONE})
+        end
+        if SECURITY_GROUPS
+          options.merge!({:security_groups => SECURITY_GROUPS})
+        end
         if Keypairs.key_pair then
           options['key_name'] = Keypairs.key_pair.name
         end
@@ -523,7 +529,7 @@ module Torpedo
 
       def test_060_attach_volume
         volume = Torpedo::Volume::Volumes.volume
-        assert(@@server.attach_volume(volume.id, "/dev/vdb"))
+        assert(@@server.attach_volume(volume.id, VOLUME_DEVICE))
 
         begin
           timeout(VOLUME_BUILD_TIMEOUT) do

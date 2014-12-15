@@ -16,6 +16,7 @@ TEST_PING=configs.fetch('test_ping', true)
 SERVER_BUILD_TIMEOUT=(configs['server_build_timeout'] || 60).to_i
 NETWORK_LABEL=(configs['network_label'] || 'public')
 NETWORK_NAMESPACE=configs['network_namespace']
+IP_ADDRESS_ORDER=(configs['ip_address_order'] || 0).to_i
 SLEEP_AFTER_IMAGE_CREATE=(configs['sleep_after_image_create'] || 0).to_i
 SSH_PRIVATE_KEY=configs['ssh_private_key'] || ENV['HOME'] + "/.ssh/id_rsa"
 SSH_PUBLIC_KEY=configs['ssh_public_key'] || ENV['HOME'] + "/.ssh/id_rsa.pub"
@@ -46,6 +47,7 @@ FLAVOR_NAME_RESIZE=configs['flavor_name_resize']
 #volume opts
 volume_opts=configs['volumes'] || {}
 VOLUME_ENABLED = volume_opts.fetch('enabled', false)
+VOLUME_DEVICE = volume_opts.fetch('device', '/dev/vdb')
 VOLUME_BUILD_TIMEOUT = (volume_opts['build_timeout'] || 120).to_i
 TEST_VOLUME_SNAPSHOTS = volume_opts.fetch('test_snapshots', false)
 CLEAN_UP_VOLUMES = volume_opts.fetch('cleanup', true)
@@ -60,6 +62,14 @@ orchestration_opts=configs['orchestration'] || {}
 ORCHESTRATION_ENABLED = orchestration_opts.fetch('enabled', false)
 STACK_CREATE_TIMEOUT = (orchestration_opts['stack_create_timeout'] || 120).to_i
 CLEAN_UP_STACKS = orchestration_opts.fetch('cleanup', true)
+
+# compute opts
+AVAILABILITY_ZONE = configs['availability_zone']
+SECURITY_GROUPS = configs['security_groups']
+
+# output verbosity
+include Test::Unit::UI::Console::OutputLevel
+OUTPUT_LEVEL = Kernel.const_get(configs['output_level'].upcase) || NORMAL
 
 FOG_VERSION=configs['fog_version']
 
@@ -78,21 +88,21 @@ module Torpedo
     def flavors
       require 'torpedo/compute/flavors'
       TORPEDO_TEST_SUITE << Torpedo::Compute::Flavors.suite
-      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests, :output_level => OUTPUT_LEVEL).passed?
     end
 
     desc "limits", "Run limits tests for the OSAPI."
     def limits
       require 'torpedo/compute/limits'
       TORPEDO_TEST_SUITE << Torpedo::Compute::Limits.suite
-      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests, :output_level => OUTPUT_LEVEL).passed?
     end
 
     desc "images", "Run images tests for the OSAPI."
     def images
       require 'torpedo/compute/images'
       TORPEDO_TEST_SUITE << Torpedo::Compute::Images.suite
-      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests, :output_level => OUTPUT_LEVEL).passed?
     end
 
     desc "servers", "Run servers tests for the OSAPI."
@@ -113,7 +123,7 @@ module Torpedo
         TORPEDO_TEST_SUITE << Torpedo::Metering::Meters.suite
       end
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
-      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests, :output_level => OUTPUT_LEVEL).passed?
     end
 
     desc "keypairs", "Run keypair tests for the OSAPI."
@@ -122,7 +132,7 @@ module Torpedo
       require 'torpedo/cleanup'
       TORPEDO_TEST_SUITE << Torpedo::Compute::Keypairs.suite
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
-      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests, :output_level => OUTPUT_LEVEL).passed?
     end
 
     desc "volumes", "Run volume tests for the OSAPI."
@@ -131,7 +141,7 @@ module Torpedo
       require 'torpedo/cleanup'
       TORPEDO_TEST_SUITE << Torpedo::Volume::Volumes.suite
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
-      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests, :output_level => OUTPUT_LEVEL).passed?
     end
 
     desc "orchestration", "Run orchestration tests for the OSAPI."
@@ -144,14 +154,14 @@ module Torpedo
       end
       TORPEDO_TEST_SUITE << Torpedo::Orchestration::Stacks.suite
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
-      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests, :output_level => OUTPUT_LEVEL).passed?
     end
 
     desc "cleanup", "Clean up servers, images, volumes, etc."
     def cleanup
       require 'torpedo/cleanup'
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
-      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests, :output_level => OUTPUT_LEVEL).passed?
     end
 
     desc "all", "Run all tests."
@@ -182,7 +192,7 @@ module Torpedo
         TORPEDO_TEST_SUITE << Torpedo::Metering::Meters.suite
       end
       TORPEDO_TEST_SUITE << Torpedo::Cleanup.suite
-      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests).passed?
+      exit Test::Unit::UI::Console::TestRunner.run(TorpedoTests, :output_level => OUTPUT_LEVEL).passed?
     end
 
     desc "ssh", "Test ssh connectivity on a server."

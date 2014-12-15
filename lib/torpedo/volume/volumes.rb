@@ -57,6 +57,9 @@ module Torpedo
 
       def test_001_create_volume
         options = {:display_name => @@volname, :display_description => @@voldesc, :size => @@volsize}
+        if AVAILABILITY_ZONE
+          options.merge!({:availability_zone => AVAILABILITY_ZONE})
+        end
         volume = create_volume(options)
 
         check_volume(volume)
