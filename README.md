@@ -58,7 +58,7 @@ Installation
 
   # NETWORK OPTIONS
   #network_label: label
-  #ip_adress_order: 1 # Use if multiple ip adresses assigned within one network
+  #ip_address_order: 1 # Use if multiple ip adresses assigned within one network
   #security_groups: ['default', 'ssh'] 
 
   # VOLUMES OPTIONS
