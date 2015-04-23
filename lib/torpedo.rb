@@ -71,6 +71,10 @@ SECURITY_GROUPS = configs['security_groups']
 include Test::Unit::UI::Console::OutputLevel
 OUTPUT_LEVEL = Kernel.const_get(configs['output_level'].upcase) || NORMAL
 
+# ssl verification
+
+DISABLE_SSL_CHECK = configs['disable_ssl_check']
+
 FOG_VERSION=configs['fog_version']
 
 TORPEDO_TEST_SUITE = Test::Unit::TestSuite.new("Torpedo")
