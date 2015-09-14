@@ -17,6 +17,10 @@ module Torpedo
           ENV['EXCON_DEBUG'] = 'true'
         end
 
+        if DISABLE_SSL_CHECK
+          Excon.defaults[:ssl_verify_peer] = false
+        end
+
         auth_url = ENV['OS_AUTH_URL']
         api_key = ENV['OS_PASSWORD']
         username = ENV['OS_USERNAME']

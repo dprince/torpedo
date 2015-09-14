@@ -17,6 +17,10 @@ module Torpedo
           ENV['EXCON_DEBUG'] = 'true'
         end
 
+        if DISABLE_SSL_CHECK
+          Excon.defaults[:ssl_verify_peer] = false
+        end
+
         auth_url = ENV['NOVA_URL'] || ENV['OS_AUTH_URL']
         api_key = ENV['NOVA_API_KEY'] || ENV['OS_PASSWORD']
         username = ENV['NOVA_USERNAME'] || ENV['OS_USERNAME']
